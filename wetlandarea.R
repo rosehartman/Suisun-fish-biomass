@@ -17,3 +17,5 @@ vegarea= group_by(wetarea, Code, SiteName, Slough, Descriptor, Status, Type, Cal
 #now whether it is tidal or non-tidal wetland
 tidalarea= group_by(wetarea, Code, SiteName, Slough, Descriptor, Status, Type, Habitat) %>%
   summarize(wet = sum(Shape_Area))
+
+#I changed something here
