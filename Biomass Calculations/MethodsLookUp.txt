@@ -1,0 +1,5 @@
+"MethodRowID","MethodCode","MethodName","MethodType","Active","Comments"
+"{90FEA00E-E1FB-11D2-9F94-006008038FD8}","BSEIN","Beach Seine","SEINE",1,
+"{90FEA00C-E1FB-11D2-9F94-006008038FD8}","MWTR","Midwater Trawl","TRAWL",1,
+"{E67750CE-7CCD-11D3-AFD3-00C04FF7F6A0}","OTR","Otter Trawl","TRAWL",1,
+"{A4A2B847-3D5C-11D4-B974-006008C01BCF}","SLED","Larval Sled","SLED",1,

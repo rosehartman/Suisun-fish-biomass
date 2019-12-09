@@ -1,0 +1,5 @@
+"GearRowID","GearID","MethodCode","Diameter","CalibrationDate","kfactor","Main Body Mesh (mm)","Cod-end Mesh (mm)","Width (m)","Height (m)","Length (m)"
+"{3F402F7D-3D2C-11D4-B974-006008C01BCF}","BSEIN1","BSEIN",,,,"4.8",,"10","1.8",
+"{3F402F80-3D2C-11D4-B974-006008C01BCF}","MWTR1","MWTR",,,,"15.9","3.2","4.3","1.5","5.3"
+"{3F402F81-3D2C-11D4-B974-006008C01BCF}","OTR1","OTR",,,,"15.9","3.2","4.3","1.5","5.3"
+"{A4A2B842-3D5C-11D4-B974-006008C01BCF}","SLED1","SLED",".68",,,"0.5",,,,"3"

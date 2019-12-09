@@ -1,0 +1,45 @@
+"VariableRowID","VariableName","Active","Description","VariableType"
+"{3F22D8F4-5F49-45B8-B83A-D29A0DE4DB01}","SpecificConductivity",1,"The reciprocal of the specific resistance of a solution which is proportional to ions in solution.",1
+"{511B51D3-A05B-11D4-B974-006008C01BCF}","CatchRowID",1,"unique row ID for table Catch",4
+"{511B51D4-A05B-11D4-B974-006008C01BCF}","SampleRowID",1,"row ID for the table Sample",4
+"{511B51D5-A05B-11D4-B974-006008C01BCF}","Comments",1,"comments pertaining to the catch record",4
+"{511B51D6-A05B-11D4-B974-006008C01BCF}","SeineRowID",1,"unique row ID for table Seine",4
+"{511B51D7-A05B-11D4-B974-006008C01BCF}","SeineDirectionCode",1,"seine trajectory",2
+"{511B51DB-A05B-11D4-B974-006008C01BCF}","SledRowID",1,"unique row ID for table SledEffort",4
+"{511B51DD-A05B-11D4-B974-006008C01BCF}","TrawlRowID",1,"unique row ID for table TrawlEffort",4
+"{66087C7D-0867-4619-9321-248DD10D5172}","SledComments",1,"Comments about the sled sample",4
+"{773C9BD5-2F46-4966-97B6-6AAF23607C2A}","QADone",1,"Identifies whether or not the record has passed QA.  Only records where QADone = true may be posted.",4
+"{8C1FB2C8-57E2-11D4-B974-006008C01BCF}","Salinity",1,"Salinity of the water measured with a",1
+"{8C1FB2C9-57E2-11D4-B974-006008C01BCF}","DO",1,"Dissolved oxygen measured with a",1
+"{8C1FB2CA-57E2-11D4-B974-006008C01BCF}","PctSaturation",1,"Percent oxygen saturation of the water measured with a",1
+"{8C1FB2CB-57E2-11D4-B974-006008C01BCF}","Conductivity",0,"Specific conductivity of the water measured with a",1
+"{8C1FB2CC-57E2-11D4-B974-006008C01BCF}","TideCode",1,"status of tidal stage",2
+"{8C1FB2CD-57E2-11D4-B974-006008C01BCF}","TowDuration",1,"Length of time the trawl was pulled through the water",1
+"{8C1FB2CE-57E2-11D4-B974-006008C01BCF}","StartMeter",1,"Meter reading at the beginning of the trawl",1
+"{8C1FB2D0-57E2-11D4-B974-006008C01BCF}","TotalMeter",1,"StartMeter reading minus EndMeter reading",1
+"{8C1FB2D1-57E2-11D4-B974-006008C01BCF}","Sex",1,"Sex of chinese mitten crabs",2
+"{94E7795A-DF69-42C2-9F69-ADB40F06B008}","only",1,"Comments about the captured fish(es)",4
+"{9DA36F94-8D77-11D3-AFE7-00C04FF7F6A0}","Sampler",1,"Name of the person who sampled in the field",4
+"{9DC794EC-E16E-4116-87A1-08C02E896278}","CatchComments",1,"Comments for the table Catch",4
+"{BC401865-D43D-11D3-B046-00C04FF7F6A0}","CountRef",1,"Describe if the sample of standardlength was random or (if not) groups standardlengths in subgroups.",2
+"{C0E21702-21DC-4929-986A-3A83B2E5BE73}","SeineComments",1,"Comments about the seine sample",4
+"{E64FD1EF-E2DF-11D2-9F95-006008038FD8}","Dead",1,"Basic catch variable: differentiate dead from live fish(es).",2
+"{E64FD1F1-E2DF-11D2-9F95-006008038FD8}","EndMeter",1,"Meter reading at end of the trawl.",1
+"{E64FD1F3-E2DF-11D2-9F95-006008038FD8}","StandardLength",1,"Basic catch variable: Length of fish(es) measured from …",1
+"{E64FD1F4-E2DF-11D2-9F95-006008038FD8}","MethodCode",1,"Alphanumeric code defining the type of sampling action taken.",3
+"{E64FD1F6-E2DF-11D2-9F95-006008038FD8}","GearID",1,"Alphanumeric code identifying a particular piece of gear.",3
+"{E64FD1F8-E2DF-11D2-9F95-006008038FD8}","OrganismCode",1,"Alphanumeric code for a species of fish present in the catch.",3
+"{E64FD1FB-E2DF-11D2-9F95-006008038FD8}","SampleDate",1,"Date of the sampling event.",1
+"{E64FD1FC-E2DF-11D2-9F95-006008038FD8}","SampleTime",1,"Time of sampling event.",1
+"{E64FD1FD-E2DF-11D2-9F95-006008038FD8}","Secchi",1,"Turbidity estimated by depth of secchi dish",1
+"{E64FD1FE-E2DF-11D2-9F95-006008038FD8}","SeineDepth",1,"Basic effort variable: Depth of seine",1
+"{E64FD1FF-E2DF-11D2-9F95-006008038FD8}","SeineLength",1,"Basic effort variable: Length of seine",1
+"{E64FD200-E2DF-11D2-9F95-006008038FD8}","SeineWidth",1,"Basic effort variable: Width of seine",1
+"{E64FD204-E2DF-11D2-9F95-006008038FD8}","StationCode",1,"Alphanumeric code refering to the geographic location of the sampling event.",3
+"{E64FD206-E2DF-11D2-9F95-006008038FD8}","SubstrateCode",1,"Seine bottom substrate",2
+"{E64FD20A-E2DF-11D2-9F95-006008038FD8}","Count",1,"Count of fish(es) sharing all the characteristics in a catch record.",1
+"{E64FD211-E2DF-11D2-9F95-006008038FD8}","UserName",1,"Logon name of user who entered or edited the data",4
+"{E64FD212-E2DF-11D2-9F95-006008038FD8}","WaterTemperature",1,"Water temperature measured with …",1
+"{E64FD215-E2DF-11D2-9F95-006008038FD8}","Weight",0,"Fish(es) weight.",1
+"{EB5B9F9F-34F9-4DE2-8B89-43D790CBABA6}","TrawlComments",1,"Commenst about the trawl sample",4
+"{F8673997-6714-4E6D-A912-9408FA79F88D}","SpecificConductance",1,"specific conductance of the water",1

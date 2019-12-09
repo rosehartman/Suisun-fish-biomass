@@ -1,0 +1,186 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+pacman::p_load(data.table, readxl, dplyr, lubridate, tidyr, ggplot2, RODBC)
+
+```
+
+
+PRODUCE LENGTH CONVERSION TABLE
+```{r}
+d.fx3 <- fread("FX3_SwimTable.csv")
+
+setnames(d.fx3, 
+         old = colnames(d.fx3),
+         new = c(
+            "species",
+            "common",
+            "convert.tl.sl",
+            "convert.tl.fl",
+            "reference"
+))
+
+
+d.convert.length <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, convert.tl.fl)][order(common)]) 
+```
+
+
+PRODUCE LENGTH TO BIOMASS CONVERSION TABLE
+```{r}
+d.kimmerer <- fread("Kimmerer L-W Table.csv")
+```
+
+DOWNLOAD SUISUN DATA AND PRODUCE SPECIES LIST
+-data tables used in Suisun Marsh Database:
+Catch (catch #, length, by species)
+Catch_Entry (see not below)
+Depth (depth at regular temporal intervals during Otter & Mid Water trawl sampling -- not taken consistently)
+Depth_Entry (see not below)
+Sample (included method, station, date, WQ)
+Sample_Entry (see not below)
+SeineEffort (variables to calculate water volume sampled)
+SledEffort (duration of tow)
+
+NOTE: "..._Entry Tables" are for the most recent NOT QAQC'd data. These tables already have
+      information contained in the "...Effort" Tables. The regular QAQC'd tables need to be 
+      joing/merged with the Effort tables before rbinding like tables together.
+
+
+The following Lookup Table were also downloaded for easy reference.
+MethodsLookUp (sample gear used)
+OrganismLookup (species names and codes)
+StatiopnsLookUp (code & name of Station -- but no Lat Long :( )
+TrawlEffort (duration of tow)
+UnitsLookUp (units for all variables in Suisun Marsh database)
+VariableCodesLookUp (for factorial variables, provides factor levels and description for each level)
+VariablesLookUp (Description of all variables, and "type" of variable: 1 = continuous, 2 & 3 both seem 
+                  to be factorial type fields, type 3 is specifically alphanumeric perhaps from lookup list, 
+                  4 = informational such as comment field or samplers)
+                                                                                   
+NOTE: The CatchExpansion table contains a row for every fish caught by duplicating        
+       CatchRowID and SampleRowID for every Count in d.catch, and assigning a      
+       new field, "Record", assigned values of 1 to Count. The CatchExpansion 
+       table will NOT be used in this analysis.                                               
+
+```{r}
+library(RODBC)    #loads the RODBC package
+dta <- odbcConnectAccess2007("C:/Users/bharvey/Documents/Suisun Fish Biomass/Biomass Calculations/SuisunMarshFish2017_11_18_19_GuestPWuser.accdb", uid = "Guest", pwd = "user")   #opens database connection
+df1 <- sqlFetch(dta, "bar")   #loads the table called 'bar' in the original Access file
+df2 <- sqlFetch(dta, "bin")   #loads the table called 'bin' in the original Access file
+```
+
+
+```{r}
+d.ageclass.by.month <- fread("AgesBySizeMo.txt", sep = ",")
+d.catch1 <- fread("Catch.txt", sep = ",")
+d.catch2 <- fread("Catch_Entry.txt", sep = ",")
+# d.catchexpansion1 <- fread("CatchExpansion-part1.txt", sep = ",")
+# d.catchexpansion2 <- fread("CatchExpansion-part2.txt", sep = ",")
+d.depth1 <- fread("Depth.txt", sep = ",")
+d.depth2 <- fread("Depth_Entry.txt", sep = ",")
+d.methods <- fread("MethodsLookUp.txt", sep = ",")
+d.organisms <- fread("OrganismsLookUp.txt", sep = ",")
+d.sample1 <- fread("Sample.txt", sep = ",")
+d.sample2 <- fread("Sample_Entry.txt", sep = ",")
+d.seineeffort <- fread("SeineEffort.txt", sep = ",")
+d.sledeffort <- fread("SledEffort.txt", sep = ",")
+d.stations <- fread("StationsLookUp.txt", sep = ",")
+d.trawleffort <- fread("TrawlEffort.txt", sep = ",")
+d.units <- fread("UnitsLookUp.txt", sep = ",")
+d.variablecodes <- fread("VariableCodesLookUp.txt", sep = ",")
+d.variables <- fread("VariablesLookUp.txt", sep = ",")
+```
+
+GANG IT ALL UP
+```{r}
+
+# Drop columns that are not common between table sets
+d.catch2[, EntryOrder := NULL]
+
+# Join (merge) effort colums to d.sample1 to match columns in d.sample2
+d.sample1.1 <- d.seineeffort[d.sample1, on = .(SampleRowID)]
+d.sample1.1[, SeineRowID := NULL]
+d.sample1.2 <- d.trawleffort[d.sample1.1, on = .(SampleRowID)]
+d.sample1.2[, TrawlRowID := NULL]
+d.sample1.3 <- d.sledeffort[d.sample1.2, on = .(SampleRowID)]
+d.sample1.3[, SledRowID := NULL]
+d.sample1.3[is.na(StartMeter & is.na(EndMeter)), ":=" (StartMeter = i.StartMeter, EndMeter = i.EndMeter)]
+d.sample1.3[, i.StartMeter := NULL]
+d.sample1.3[, i.EndMeter := NULL]
+
+# Bind rows for table sets: catch, catchexpansion, depth, sample 
+d.catch <- rbind(d.catch1, d.catch2)
+# d.catchexpansion <- rbind(d.catchexpansion1, d.catchexpansion2)
+d.depth <- rbind(d.depth1, d.depth2)
+d.sample <- rbind(d.sample1.3, d.sample2)
+
+#########################################################################################
+### NOTE: d.depth is record of water depth at regular intervals during Otter and      ###
+###       Midwater trawls. To use as variable, must average "Depth" by SampleRowID.   ###
+###       Then join to d.sample on SampleRowID. Depth does not exist for ever Sample. ###
+#########################################################################################
+d.depth.avg <- d.depth[, .(depth.avg = mean(Depth)), by = (SampleRowID)] 
+
+# JOIN IT ALL UP
+d.suisun <- d.depth.avg[d.sample[d.catch, on = .(SampleRowID)], on = .(SampleRowID)]
+
+#########################################################################################
+### NOTE: start and stop meter readings are used to estimate water velocity. Average  ###
+###       Velocity multipled by net opening and tow duration is roughly equivalent    ###
+###       the volume of water sampled -- important for density estimates and          ###
+###       comparability between gear types. Since these values were not consistently  ###
+###       taken, we will likely use duration as an index, and enter gear type as a    ###
+###       factor to remove this source of variability from comparisons with other     ###
+###       variables of greater interest, like season and proximity to outfalls.       ###
+#########################################################################################
+
+
+
+############ DIAGNOSTIC ZONE
+str(d.catch)
+str(d.catchexpansion)
+str(d.depth)
+str(d.sample)
+
+
+```
+
+Classes 'data.table' and 'data.frame':	13091 obs. of  24 variables:
+ $ SampleRowID        : chr  "{0009F515-7CB5-499F-86E0-EFCE4ACE058C}" "{000F0B7C-5263-46D1-975D-F555016E618C}" "{001CCC7A-106B-4421-9ABD-CA7833ACE5D5}" "{001EFF22-FE47-4468-92F6-6F1531090921}" ...
+ $ StartMeter         : int  NA NA NA NA NA NA NA NA NA NA ...
+ $ EndMeter           : int  NA NA NA NA NA NA NA NA NA NA ...
+ $ TotalMeter         : int  NA NA NA NA NA NA NA NA NA NA ...
+ $ SledComments       : logi  NA NA NA NA NA NA ...
+ $ SeineDirectionCode : chr  NA NA NA NA ...
+ $ SeineLength        : num  NA NA NA NA NA NA NA NA NA NA ...
+ $ SeineWidth         : num  NA NA NA NA NA NA NA NA NA NA ...
+ $ SeineDepth         : num  NA NA NA NA NA NA NA NA NA NA ...
+ $ SeineComments      : chr  NA NA NA NA ...
+ $ MethodCode         : chr  "OTR" "OTR" "OTR" "OTR" ...
+ $ StationCode        : chr  "MZ2" "BY3" "DV2" "NS2" ...
+ $ SampleDate         : chr  "2013-12-04 0:00:00" "2009-07-27 0:00:00" "2007-08-08 0:00:00" "2012-06-28 0:00:00" ...
+ $ SampleTime         : chr  "1899-12-30 13:03:00" "1899-12-30 10:50:00" "1899-12-30 10:29:00" "1899-12-30 13:15:00" ...
+ $ QADone             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ GearID             : logi  NA NA NA NA NA NA ...
+ $ WaterTemperature   : num  11.8 21 19.6 21.1 15.8 9.3 16.2 18.8 8.6 11.6 ...
+ $ Salinity           : num  4.9 2.4 5 3.5 1.5 3.2 9.7 0.9 1.7 0.1 ...
+ $ DO                 : num  8.41 5.4 6.55 7.39 6.48 8.6 7.1 7.4 8.23 7.8 ...
+ $ PctSaturation      : num  80.2 63 73 84.8 66.8 79 75.4 81 71 71 ...
+ $ Secchi             : num  49 23 18 30 20 21 43 20 25 11 ...
+ $ SpecificConductance: int  8670 4542 8540 6420 2814 4280 16450 1788 3258 257 ...
+ $ TideCode           : chr  "incoming" "outgoing" "" "outgoing" ...
+ $ UserName           : chr  "lcook" "suisun" "Student" "lcook" ...
+ - attr(*, ".internal.selfref")=<externalptr> ```{r}
+colnames(d.sample2)
+
+```
+
+
+NEXT STEPS
+- merge two above tables and compare length conversion factors
+- load marsh fish data
+- figure out if they are a major component of assemblage
+- calculate biomass!

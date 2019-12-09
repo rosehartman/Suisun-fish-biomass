@@ -1,0 +1,63 @@
+American shad 0.0071 L3.1160.13 (37) Suisun Marsh 56–199 SL
+American shad 0.0192 L2.8560.29 (50) Delta Wetlands 52–86
+American shad 0.0057 L3.1860.09 (26) Delta Predators 25–133
+American shad 0.0071 L2.96 Carlander (1969)
+Arrow goby 0.0035 L3.1960.30 (38) BREACH II 22–54
+Bay goby 0.0015 L3.3860.78 (17) BREACH II 26–47
+Chinook salmon 0.0017 L3.4560.13 (68) Delta Wetlands 34–87
+Chinook salmon 0.0113 L2.9960.02 (2,484) Deer Creek (Sacramento River) 32–158
+Chinook salmon 0.0058 L3.1160.06 (65) Chipps Island 42–184
+Chinook salmon 0.0013 L3.49 Chinook salmon Petrusso and Hayes (2001) 50–90
+Chinook salmon 0.3000 L2.22 MacFarlane and Norton (2002) 67–113
+Common carp 0.0670 L2.8560.07 (59) Suisun Marsh 79–375 SL
+Delta smelt 0.0050 L3.1560.15 (60) Suisun Marsh 30–105 SL
+Delta smelt 0.0020 L3.3660.15 (53) Delta predators 37–78
+Delta smelt 0.0009 L3.53 B. Baskerville-Bridges, University of California–Davis, personal communication
+Inland silverside 0.0085 L2.9160.03 (880) BREACH II 11–100
+Inland silverside 0.0152 L2.7560.06 (267) Delta Wetlands 26–77
+Inland silverside 0.0183 L2.7460.13 (34) Delta Predators 26–92
+Longfin smelt 0.0005 L3.6960.08 (117) Suisun Marsh 25–91 SL
+Longfin smelt 0.0024 L3.37 Cailliet et al. (2000) SL
+Northern anchovy 0.0015 L3.3760.06 (123) BREACH II 16–99
+Northern anchovy 0.0040 L3.20 Messersmith (1969) SL
+Pacific herring 0.0015 L3.4460.21 (89) BREACH II 16–47
+Pacific herring 0.0043 L3.23 Spratt (1981) SL
+Pacific staghorn sculpin 0.0162 L2.9160.04 (305) BREACH II 12–102
+Pacific staghorn sculpin 0.0051 L3.2060.04 (384) Suisun Marsh 20–164 SL
+Pacific staghorn sculpin 0.0032 L3.26 Cailliet et al. (2000)
+Prickly sculpin 0.0243 L2.7860.64 (15) BREACH II 33–59
+Prickly sculpin 0.0038 L3.2960.03 (533) Suisun Marsh 16–133 SL
+Prickly sculpin 0.0014 L3.5160.28 (16) Delta Wetlands 26–75
+Rainwater killifish 0.0061 L3.1860.13 (186) BREACH II 18–41
+Sacramento sucker 0.0146 L3.0160.05 (82) Suisun Marsh 27–328 SL
+Splittail 0.0090 L3.0460.22 (32) BREACH II 94–192
+Splittail 0.0026 L3.3060.02 (634) Suisun Marsh 37–325 SL
+Splittail 0.0027 L3.3060.22 (11) Delta Wetlands 74–174
+Splittail 0.0188 L2.9060.09 (17) Delta Predators 45–280
+Shimofuri goby 0.0012 L3.5160.18 (32) BREACH II 29–94
+Shimofuri goby 0.0051 L3.2460.41 (13) Delta Wetlands 30–66
+Starry flounder 0.0082 L3.1360.04 (72) Suisun Marsh 22–153 SL
+Starry flounder0.0213 L2.95 Cailliet et al. (2000)
+Striped bass 0.0068 L3.1160.06 (98) BREACH II 44–186
+Striped bass 0.0034 L3.2560.02 (276) Suisun Marsh 13–206 SL
+Striped bass 0.0181 L2.9160.21 (10) Delta Wetlands 61–131
+Striped bass 0.0192 L2.9260.01 (153) Delta Predators 28–258
+Striped bass 0.0144 L2.92 Cooper et al. (1998) for 1955–1961
+Striped bass 0.0053 L3.14 Cooper et al. (1998) for 1990
+Striped bass 0.0074 L3.05 Cooper et al. (1998) for 1991
+Striped bass 0.0066 L3.08 Cooper et al. (1998) for 1992
+Threadfin shad 0.0023 L3.3760.27 (21) BREACH II 54–103
+Threadfin shad 0.0069 L3.1560.11 (45) Suisun Marsh 37–133 SL
+Threadfin shad 0.0018 L3.4860.30 (74) Delta Wetlands 64–101
+Threadfin shad 0.0057 L3.2360.10 (61) Delta Predators 24–107
+Threespine stickleback 0.0086 L3.0460.14 (148) BREACH II 20–87
+Topsmelt 0.0038 L3.1760.03 (183) BREACH II 10–155
+Topsmelt 0.0089 L3.04 Cailliet et al. (2000) SL
+Tule perch 0.0057 L3.2960.33 (12) BREACH II 68–138
+Tule perch 0.0289 L2.9660.05 (205) Suisun Marsh 26–152 SL
+Tule perch 0.0100 L3.1960.11 (26) Delta Predators 42–168
+Western mosquitofish 0.0066 L3.1560.12 (156) BREACH II 19–50
+Yellowfin goby 0.0079 L3.0060.02 (338) BREACH II 15–212
+Yellowfin goby 0.0150 L2.8760.05 (244) Suisun Marsh 35–190 SL
+Yellowfin goby 0.0169 L2.8560.21 (27) Delta Wetlands 37–89
+Yellowfin goby 0.0073 L3.0460.08 (38) Delta Predators 25–174
