@@ -205,8 +205,12 @@ setnames(d.kimmerer,
 
 ############################ DIAGNOSTIC ZONE ############################
 paste(str(d.convert.length), str(d.kimmerer))
+d.convert.length[, dcl := "T"]
+d.kimmerer[, dk := "T"]
 # join conversion table data to species list from suisun to see what we have and what we need
-merge(a, b, by = "dog", all = TRUE)
+d.biomass.convert <- merge(d.convert.length, d.kimmerer, by = c("common"), all = TRUE)
+setcolorder(d.biomass.convert, c("common", "species", "dcl", "dk", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", ))
+d.biomass.convert[order(common)]
 
 
 ```
