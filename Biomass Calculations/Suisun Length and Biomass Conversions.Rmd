@@ -188,8 +188,8 @@ PRODUCE LENGTH TO BIOMASS CONVERSION TABLE
 ```{r}
 d.kimmerer <- fread("Kimmerer L-W Table.csv")
 # note: for Kimmerer, mass = slope * (length ^ exponent)
-setnames(d.fx3, 
-         old = colnames(d.fx3),
+setnames(d.kimmerer, 
+         old = colnames(d.kimmerer),
          new = c(
             "common",
             "species",
@@ -197,15 +197,15 @@ setnames(d.fx3,
             "convert.exponent",
             "length.type",
             "convert.fl2tl.Kimmerer",
-            "convert.tl2sl.Kimmerer"
-            "convert.tl.sl",
+            "convert.tl2sl.Kimmerer",
+            "nothing_col",
             "reference"
 ))
 
 
 ############################ DIAGNOSTIC ZONE ############################
 paste(str(d.convert.length), str(d.kimmerer))
-# join converstion table data to species list from suisun to see what we have and what we need
+# join conversion table data to species list from suisun to see what we have and what we need
 merge(a, b, by = "dog", all = TRUE)
 
 
