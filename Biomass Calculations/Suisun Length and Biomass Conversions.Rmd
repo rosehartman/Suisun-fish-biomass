@@ -88,7 +88,10 @@ d.sample1.3[, i.StartMeter := NULL]
 d.sample1.3[, i.EndMeter := NULL]
 
 # Bind rows for table sets: catch, catchexpansion, depth, sample 
-d.catch <- rbind(d.catch1, d.catch2)
+d.catch.bind <- rbind(d.catch1, d.catch2)
+# add common and sci names to catch
+d.organisms.4join <- d.organisms[, .(OrganismCode, CommonName, "Species" = paste(Genus," ", Species))]
+d.catch <- d.organisms.4join[d.catch.bind, on = .(OrganismCode)]
 # d.catchexpansion <- rbind(d.catchexpansion1, d.catchexpansion2)
 d.depth <- rbind(d.depth1, d.depth2)
 d.sample <- rbind(d.sample1.3, d.sample2)
@@ -117,10 +120,10 @@ d.suisun <- d.depth.avg[d.sample[d.catch, on = .(SampleRowID)], on = .(SampleRow
 
 
 ############ DIAGNOSTIC ZONE
-str(d.catch)
-str(d.catchexpansion)
-str(d.depth)
-str(d.suisun)
+# str(d.catch)
+# str(d.catchexpansion)
+# str(d.depth)
+# str(d.suisun)
 
 
 ```
@@ -180,7 +183,7 @@ setnames(d.fx3,
 ))
 
 
-d.convert.length <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, convert.tl.fl)][order(common)]) 
+d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, convert.tl.fl)][order(common)]) 
 ```
 
 
@@ -193,25 +196,46 @@ setnames(d.kimmerer,
          new = c(
             "common",
             "species",
-            "convert.slope",
-            "convert.exponent",
-            "length.type",
+            "convert.biomass.slope",
+            "convert.biomass.exponent",
+            "biomassconvert.lengthtype",
             "convert.fl2tl.Kimmerer",
             "convert.tl2sl.Kimmerer",
             "nothing_col",
             "reference"
 ))
-
+d.kimmerer[, nothing_col := NULL]
 
 ############################ DIAGNOSTIC ZONE ############################
-paste(str(d.convert.length), str(d.kimmerer))
-d.convert.length[, dcl := "T"]
+suisun.catch.species <- as.data.table(unique(d.catch[, CommonName]))
+setnames(suisun.catch.species, old = c("V1"), new = c("common"))
+suisun.catch.species[, ds := "T"]
+
+paste(str(d.fx3.unique), str(d.kimmerer))
+
+d.fx3.unique[, dfx3 := "T"]
 d.kimmerer[, dk := "T"]
 # join conversion table data to species list from suisun to see what we have and what we need
-d.biomass.convert <- merge(d.convert.length, d.kimmerer, by = c("common"), all = TRUE)
-setcolorder(d.biomass.convert, c("common", "species", "dcl", "dk", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", ))
-d.biomass.convert[order(common)]
+d.biomass.convert.merge <- merge(d.fx3.unique, d.kimmerer, by = c("common"), all = TRUE)
+d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
 
+setcolorder(d.biomass.convert.merge, c("common", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
+
+setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
+
+d.biomass.convert.merge[order(common)]
+d.biomass.convert.merge2[order(common)]
+
+#####################################################################################
+## NOW COMPARE MISSING WITH SPECIES OCCURRENCE TO SEE IF WE CARE ABOUT THE MISSING ##
+#####################################################################################
+# Suisun catch species with missing biomass conversions
+d.missing.conversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
+
+# Total catch number and sample occurrence per species
+
+
+d.biomass.convert.merge2[ds == "T" & dk == "T"]
 
 ```
 
