@@ -237,6 +237,10 @@ d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx
 # above tables reordered for diagnostic viewing
 # d.biomass.convert.merge[order(common)]
 # d.biomass.convert.merge2[order(common)]
+
+### DIAGNOSTIC ZONE ###
+# str(d.suisun)
+
 ```
 
 
@@ -249,26 +253,38 @@ d.missing.conversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(
 
 # Total catch number per species
 # str(d.suisun)
-d.suisun.summary <- d.suisun[, .(sum.catch = sum(Count)), by = CommonName][order(-sum.catch)]
+d.suisun.summary <- d.suisun[, .(sum.catch.perspecies = sum(Count)), by = CommonName][order(-sum.catch)]
 
 # Max proportion of catch per sample for each species
  # create t1 as total catch per sample of all fish (rows = Nsample)
+ t1 <- d.suisun[, .(sum.catch.persample = sum(Count)), by = SampleRowID]
  # create t2 as total catch per sample of each species (rows = species x Nsample)
+ t2 <- d.suisun[, .(sum.catch.persample.perspecies = sum(Count)), by = .(SampleRowID, CommonName)]
  # left join t2 and t1 on sample # (rows = species x Nsample)
+ t.catchcounts <- t2[t1, on = .(SampleRowID)]
  # add column to join table "species.proportion.persample" calculated as catch per species/catch per sample (represents proportionate catch per sample for each species)
+ t.catchcounts[, species.proportion.persample := sum.catch.persample.perspecies / sum.catch.persample]
  # create table of average and max species.proportion.persample
 
 
 
 # plot histogram of total catch grouped by species (stats in plot?)
-d <- ggplot(d.suisun.summary, aes(CommonName, sum.catch))
-d + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
-theme(axis.text.x = element_text(angle = 90))
+p <- ggplot(d.suisun.summary, aes(sum.catch))
+p + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
+  theme(axis.text.x = element_text(angle = 90))
++ x label color by dk (T = blue, na = red)
 
-g + geom_histogram(binwidth = 5) # x, y, alpha, color, fill, linetype, size, weight
+ggsave("Histogram Total Catch per Species.tif", width = 16, height = 9)
+
+p + geom_histogram(aes(), binwidth = 5) # x, y, alpha, color, fill, linetype, size, weight
 
 # plot histogram of average and max species.proportion.persample, grouped by species (stats in plot)
 
+ggsave("Histogram Max Proportianate Catch per Species.tif", width = 16, height = 9)
+
+# plot violin plot of species.proportion.persample, grouped by species
+
+ggsave("Violin Proportionate Catch per Species.tif", width = 16, height = 9)
   
 ```
 
