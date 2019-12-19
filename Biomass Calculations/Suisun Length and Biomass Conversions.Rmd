@@ -265,6 +265,13 @@ d.suisun.summary[, dk := as.factor(dk)]
  t.catchcounts <- t2[t1, on = .(SampleRowID)]
  # add column to join table "species.proportion.persample" calculated as catch per species/catch per sample (represents proportionate catch per sample for each species)
  t.catchcounts[, species.proportion.persample := sum.catch.persample.perspecies / sum.catch.persample]
+
+setkey(d.having.bioconversion, common)
+setkey(t.catchcounts, CommonName)
+t.catchcounts <- d.having.bioconversion[t.catchcounts]
+t.catchcounts[is.na(dk), dk := "F"]
+t.catchcounts[, dk := as.factor(dk)]
+ 
  # create table of average and max species.proportion.persample
  t.catchcounts.summary1 <- t.catchcounts[, mean(species.proportion.persample), by = .(CommonName)]
     setnames(t.catchcounts.summary1, old = "V1", new = "species.proportion.persample.avg")
@@ -283,6 +290,7 @@ t.catchcounts.summary[, dk := as.factor(dk)]
 dk.col <- ifelse(d.suisun.summary[order(-sum.catch.perspecies)]$dk == "T", "#00BFC4", "#F8766D")
 p <- ggplot(d.suisun.summary)
 p + geom_col(aes(reorder(common, -sum.catch.perspecies), sum.catch.perspecies, fill = dk)) +
+    theme_classic() +
     theme(axis.text.x = element_text(angle = 90)) +
     theme(axis.text.x = element_text(color = dk.col))
 
@@ -292,14 +300,19 @@ ggsave("Histogram Total Catch per Species.tiff", width = 16, height = 9)
 dk.col <- ifelse(t.catchcounts.summary[order(-species.proportion.persample.max)]$dk == "T", "#00BFC4", "#F8766D")
 p <- ggplot(t.catchcounts.summary)
 p + geom_col(aes(reorder(common, -species.proportion.persample.max), species.proportion.persample.max, fill = dk)) +
+    theme_classic() +
     theme(axis.text.x = element_text(angle = 90)) +
     theme(axis.text.x = element_text(color = dk.col))
 
 ggsave("Histogram Max Proportianate Catch per Species.tiff", width = 16, height = 9)
 
 # plot violin plot of species.proportion.persample, grouped by species
+p <- ggplot(t.catchcounts)
+p + geom_violin(aes(common, species.proportion.persample, fill = dk, col = dk)) + #, trim = FALSE
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90))
 
-ggsave("Violin Proportionate Catch per Species.tif", width = 16, height = 9)
+ggsave("Violin Proportionate Catch per Species ColorFill Classic.tiff", width = 16, height = 9)
   
 ```
 
