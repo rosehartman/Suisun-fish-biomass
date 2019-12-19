@@ -41,13 +41,6 @@ NOTE: The CatchExpansion table contains a row for every fish caught by duplicati
        new field, "Record", assigned values of 1 to Count. The CatchExpansion 
        table will NOT be used in this analysis.                                               
 
-```{r}
-library(RODBC)    #loads the RODBC package
-dta <- odbcConnectAccess2007("C:/Users/bharvey/Documents/Suisun Fish Biomass/Biomass Calculations/SuisunMarshFish2017_11_18_19_GuestPWuser.accdb", uid = "Guest", pwd = "user")   #opens database connection
-df1 <- sqlFetch(dta, "bar")   #loads the table called 'bar' in the original Access file
-df2 <- sqlFetch(dta, "bin")   #loads the table called 'bin' in the original Access file
-```
-
 
 ```{r}
 d.ageclass.by.month <- fread("AgesBySizeMo.txt", sep = ",")
@@ -249,11 +242,19 @@ CREATE TABLE OF MISSING SPECIES AND COMPARE TO PLOTS OF SPECIES PREVELANCE AND C
 ```{r}
 
 # Suisun catch species with missing biomass conversions
-d.missing.conversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
+d.missing.bioconversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
+d.having.bioconversion <-  d.kimmerer[reference == "Kimmerer et al", .(common, dk)]
 
 # Total catch number per species
 # str(d.suisun)
-d.suisun.summary <- d.suisun[, .(sum.catch.perspecies = sum(Count)), by = CommonName][order(-sum.catch)]
+d.suisun.summary <- d.suisun[, .(sum.catch.perspecies = sum(Count)), by = CommonName][order(-sum.catch.perspecies)]
+# join info on biomass conversion availability
+setkey(d.having.bioconversion, common)
+setkey(d.suisun.summary, CommonName)
+d.suisun.summary <- d.having.bioconversion[d.suisun.summary]
+d.suisun.summary[is.na(dk), dk := "F"]
+d.suisun.summary[, dk := as.factor(dk)]
+
 
 # Max proportion of catch per sample for each species
  # create t1 as total catch per sample of all fish (rows = Nsample)
@@ -269,12 +270,13 @@ d.suisun.summary <- d.suisun[, .(sum.catch.perspecies = sum(Count)), by = Common
 
 
 # plot histogram of total catch grouped by species (stats in plot?)
-p <- ggplot(d.suisun.summary, aes(sum.catch))
-p + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
-  theme(axis.text.x = element_text(angle = 90))
-+ x label color by dk (T = blue, na = red)
+dk.col <- ifelse(d.suisun.summary[order(-sum.catch.perspecies)]$dk == "T", "#00BFC4", "#F8766D")
+p <- ggplot(d.suisun.summary)
+p + geom_col(aes(reorder(common, -sum.catch.perspecies), sum.catch.perspecies, fill = dk)) +
+    theme(axis.text.x = element_text(angle = 90)) +
+    theme(axis.text.x = element_text(color = dk.col))
 
-ggsave("Histogram Total Catch per Species.tif", width = 16, height = 9)
+ggsave("Histogram Total Catch per Species.tiff", width = 16, height = 9)
 
 p + geom_histogram(aes(), binwidth = 5) # x, y, alpha, color, fill, linetype, size, weight
 
