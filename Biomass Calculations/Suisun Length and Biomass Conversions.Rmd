@@ -233,10 +233,13 @@ d.biomass.convert.merge2[order(common)]
 d.missing.conversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
 
 # Total catch number and sample occurrence per species
+str(d.suisun)
+d.suisun.summary <- d.suisun[, .(sum.catch = sum(Count)), by = CommonName][order(-sum.catch)]
 
-
-d.biomass.convert.merge2[ds == "T" & dk == "T"]
-
+f <- ggplot(d.suisun.summary, aes(CommonName, sum.catch))
+f + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
+theme(axis.text.x = element_text(angle = 90))
+  
 ```
 
 
