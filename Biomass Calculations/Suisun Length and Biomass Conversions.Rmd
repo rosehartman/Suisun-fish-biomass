@@ -205,27 +205,44 @@ setnames(d.kimmerer,
             "reference"
 ))
 d.kimmerer[, nothing_col := NULL]
+```
 
-############################ DIAGNOSTIC ZONE ############################
+
+DETERMINE SPECIES MISSING LENGTH-BIOMASS CONVERSION PARAMETERS
+```{r}
+# Create list of all species ever caught in Suisun Marsh Sampling
 suisun.catch.species <- as.data.table(unique(d.catch[, CommonName]))
 setnames(suisun.catch.species, old = c("V1"), new = c("common"))
+
+# Create column to track Marsh database species through merge processes
 suisun.catch.species[, ds := "T"]
 
+# for possible perusal, create list of species in combined conversion databases 
+#  (note only Kimmerer has biomass conversions)
 paste(str(d.fx3.unique), str(d.kimmerer))
 
+# Create column to track conversion table species through merge processes (i.e. species in each table)
 d.fx3.unique[, dfx3 := "T"]
 d.kimmerer[, dk := "T"]
+
 # join conversion table data to species list from suisun to see what we have and what we need
 d.biomass.convert.merge <- merge(d.fx3.unique, d.kimmerer, by = c("common"), all = TRUE)
 d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
 
+# reorder columns in above two tables for easier diagnostic viewing
 setcolorder(d.biomass.convert.merge, c("common", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
 
 setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
 
-d.biomass.convert.merge[order(common)]
-d.biomass.convert.merge2[order(common)]
+# above tables reordered for diagnostic viewing
+# d.biomass.convert.merge[order(common)]
+# d.biomass.convert.merge2[order(common)]
+```
 
+
+
+CREATE TABLE OF MISSING SPECIES AND COMPARE TO PLOTS OF SPECIES PREVELANCE AND CONTRIBUTION TO BIOMASS
+```{r}
 #####################################################################################
 ## NOW COMPARE MISSING WITH SPECIES OCCURRENCE TO SEE IF WE CARE ABOUT THE MISSING ##
 #####################################################################################
@@ -236,11 +253,17 @@ d.missing.conversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(
 str(d.suisun)
 d.suisun.summary <- d.suisun[, .(sum.catch = sum(Count)), by = CommonName][order(-sum.catch)]
 
-f <- ggplot(d.suisun.summary, aes(CommonName, sum.catch))
-f + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
+d <- ggplot(d.suisun.summary, aes(CommonName, sum.catch))
+g + geom_col() +        # , x, y, alpha, color, fill, group,linetype, size
 theme(axis.text.x = element_text(angle = 90))
+
+g + geom_histogram(binwidth = 5) # x, y, alpha, color, fill, linetype, size, weight
+
   
 ```
+
+
+
 
 
 NEXT STEPS
