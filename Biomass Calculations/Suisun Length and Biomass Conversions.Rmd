@@ -266,7 +266,17 @@ d.suisun.summary[, dk := as.factor(dk)]
  # add column to join table "species.proportion.persample" calculated as catch per species/catch per sample (represents proportionate catch per sample for each species)
  t.catchcounts[, species.proportion.persample := sum.catch.persample.perspecies / sum.catch.persample]
  # create table of average and max species.proportion.persample
+ t.catchcounts.summary1 <- t.catchcounts[, mean(species.proportion.persample), by = .(CommonName)]
+    setnames(t.catchcounts.summary1, old = "V1", new = "species.proportion.persample.avg")
+ t.catchcounts.summary2 <- t.catchcounts[, max(species.proportion.persample), by = .(CommonName)]
+    setnames(t.catchcounts.summary2, old = "V1", new = "species.proportion.persample.max")
+ t.catchcounts.summary <- t.catchcounts.summary1[t.catchcounts.summary2, on = .(CommonName)]
 
+setkey(d.having.bioconversion, common)
+setkey(t.catchcounts.summary, CommonName)
+t.catchcounts.summary <- d.having.bioconversion[t.catchcounts.summary]
+t.catchcounts.summary[is.na(dk), dk := "F"]
+t.catchcounts.summary[, dk := as.factor(dk)]
 
 
 # plot histogram of total catch grouped by species (stats in plot?)
@@ -278,11 +288,14 @@ p + geom_col(aes(reorder(common, -sum.catch.perspecies), sum.catch.perspecies, f
 
 ggsave("Histogram Total Catch per Species.tiff", width = 16, height = 9)
 
-p + geom_histogram(aes(), binwidth = 5) # x, y, alpha, color, fill, linetype, size, weight
-
 # plot histogram of average and max species.proportion.persample, grouped by species (stats in plot)
+dk.col <- ifelse(t.catchcounts.summary[order(-species.proportion.persample.max)]$dk == "T", "#00BFC4", "#F8766D")
+p <- ggplot(t.catchcounts.summary)
+p + geom_col(aes(reorder(common, -species.proportion.persample.max), species.proportion.persample.max, fill = dk)) +
+    theme(axis.text.x = element_text(angle = 90)) +
+    theme(axis.text.x = element_text(color = dk.col))
 
-ggsave("Histogram Max Proportianate Catch per Species.tif", width = 16, height = 9)
+ggsave("Histogram Max Proportianate Catch per Species.tiff", width = 16, height = 9)
 
 # plot violin plot of species.proportion.persample, grouped by species
 
@@ -298,3 +311,53 @@ NEXT STEPS
 - merge two above tables and compare length conversion factors
 - figure out if they are a major component of assemblage
 - calculate biomass!
+
+ROSEMARY CODE
+```{r}
+fishcatch = d.suisun
+
+str(fishcatch)
+
+#make a unique sample ID
+fishcatch = d.suisun[, sample := paste(StationCode, MethodCode, SampleDate)]
+fishcatch[, SampleDate := as.Date(SampleDate, "%m/%d/%Y")]
+fishcatch[, Year := year("SampleDate")]
+
+
+ggplot(fishcatch, aes(x = Year)) + geom_bar()+
+  facet_wrap(~StationCode, scales = "free_y")
+
+#table of samples per station per year
+samps = group_by(fishcatch, StationCode, Year, MethodCode) %>%
+  summarize(ntrawl = length(unique(sample)))
+
+#filter it to the past 20 years
+fishRecent = filter(fishcatch, Year > 1997)
+sampsRecent = filter(samps, Year >1997)
+
+#Check out which stations are sampled continuously
+stas = group_by(sampsRecent, StationCode, MethodCode) %>%
+  summarize(trawls = sum(ntrawl))
+
+#WE SHOULD probably take out all the beach seines, midwtaer trawls,
+#and all the stations that are sampled less than 20 times in the past 20 years
+
+fishR2 = filter(fishRecent, MethodCode == "OTR", StationCode %in% 
+                  stas$StationCode[which(stas$trawls>20)])
+
+#what stations are left?
+unique(fishR2$StationCode)
+
+#how does the sampling balance across months?
+fishR2$Month = month(fishR2$SampleDate)
+
+
+#it looks like we have roughly even distribution of samples across the year
+stas2 = group_by(fishR2, StationCode, Month) %>%
+  summarize(trawls = length(unique(sample)))
+ggplot(stas2, aes(x= Month, y = trawls)) + geom_bar(stat = "identity") +
+  facet_wrap(~StationCode)
+
+
+```
+
