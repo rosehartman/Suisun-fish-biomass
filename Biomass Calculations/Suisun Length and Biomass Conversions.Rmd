@@ -180,7 +180,7 @@ d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, co
 ```
 
 
-PRODUCE LENGTH TO BIOMASS CONVERSION TABLE
+PRODUCE LENGTH TO BIOMASS CONVERSION TABLES
 ```{r}
 d.kimmerer <- fread("Kimmerer L-W Table.csv")
 # note: for Kimmerer, mass = slope * (length ^ exponent)
@@ -198,6 +198,23 @@ setnames(d.kimmerer,
             "reference"
 ))
 d.kimmerer[, nothing_col := NULL]
+
+d.schneider <- fread("Schneider L-W Table.csv")
+# note: for Schneider, log10(mass) = intercept + slope * log10(length)
+setnames(d.schneider, 
+         old = colnames(d.schneider),
+         new = c(
+            "common",
+            "convert.biomass.exponent",
+            "convert.biomass.slope.inch",
+            "convert.biomass.slope.mm",
+            "biomassconvert.lengthtype",
+            "delete1",
+            "delete2"
+))
+
+
+
 ```
 
 
@@ -233,6 +250,7 @@ d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx
 
 ### DIAGNOSTIC ZONE ###
 # str(d.suisun)
+d.biomass.merge2[, .(common, convert.tl.sl, convert.tl.fl, convert.tl2sl.Kimmerer, convert.fl2tl.Kimmerer)]
 
 ```
 
@@ -255,6 +273,8 @@ d.suisun.summary <- d.having.bioconversion[d.suisun.summary]
 d.suisun.summary[is.na(dk), dk := "F"]
 d.suisun.summary[, dk := as.factor(dk)]
 
+fwrite(d.suisun.summary, file = "Suisun Species Missing Bioconversion.csv")
+
 
 # Max proportion of catch per sample for each species
  # create t1 as total catch per sample of all fish (rows = Nsample)
@@ -273,18 +293,19 @@ t.catchcounts[is.na(dk), dk := "F"]
 t.catchcounts[, dk := as.factor(dk)]
  
  # create table of average and max species.proportion.persample
- t.catchcounts.summary1 <- t.catchcounts[, mean(species.proportion.persample), by = .(CommonName)]
+ t.catchcounts.summary1 <- t.catchcounts[, mean(species.proportion.persample), by = .(common)]
     setnames(t.catchcounts.summary1, old = "V1", new = "species.proportion.persample.avg")
- t.catchcounts.summary2 <- t.catchcounts[, max(species.proportion.persample), by = .(CommonName)]
+ t.catchcounts.summary2 <- t.catchcounts[, max(species.proportion.persample), by = .(common)]
     setnames(t.catchcounts.summary2, old = "V1", new = "species.proportion.persample.max")
- t.catchcounts.summary <- t.catchcounts.summary1[t.catchcounts.summary2, on = .(CommonName)]
+ t.catchcounts.summary <- t.catchcounts.summary1[t.catchcounts.summary2, on = .(common)]
 
 setkey(d.having.bioconversion, common)
-setkey(t.catchcounts.summary, CommonName)
+setkey(t.catchcounts.summary, common)
 t.catchcounts.summary <- d.having.bioconversion[t.catchcounts.summary]
 t.catchcounts.summary[is.na(dk), dk := "F"]
 t.catchcounts.summary[, dk := as.factor(dk)]
 
+fwrite(t.catchcounts.summary, file = "Suisun Species Max Occurrence.csv")
 
 # plot histogram of total catch grouped by species (stats in plot?)
 dk.col <- ifelse(d.suisun.summary[order(-sum.catch.perspecies)]$dk == "T", "#00BFC4", "#F8766D")
