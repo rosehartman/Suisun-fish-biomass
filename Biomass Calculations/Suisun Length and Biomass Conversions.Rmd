@@ -161,7 +161,7 @@ Classes ‘data.table’ and 'data.frame':	254161 obs. of  35 variables:
  $ CatchComments      : chr  "" "" "" "" ...
  - attr(*, ".internal.selfref")=<externalptr> 
 _________________________________________________________________________________________________
-PRODUCE LENGTH CONVERSION TABLE
+PRODUCE LENGTH-LENGTH CONVERSION TABLE
 ```{r}
 d.fx3 <- fread("FX3_SwimTable.csv")
 
@@ -170,39 +170,41 @@ setnames(d.fx3,
          new = c(
             "species",
             "common",
-            "convert.tl.sl",
-            "convert.tl.fl",
+            "convert.tl2sl.fx3",
+            "convert.tl2fl.fx3",
             "reference"
 ))
 
 
-d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, convert.tl.fl)][order(common)]) 
+d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl2sl.fx3, convert.tl2fl.fx3)][order(common)])
+d.fx3.unique[, convert.sl2tl.fx3 := 1/convert.tl2sl.fx3]
+rm(d.fx3)
 ```
 
 
-PRODUCE LENGTH TO BIOMASS CONVERSION TABLES
+PRODUCE LENGTH-BIOMASS CONVERSION TABLES
 ```{r}
-d.kimmerer <- fread("Kimmerer L-W Table.csv")
+d.kim <- fread("Kimmerer L-W Table.csv")
 # note: for Kimmerer, mass = slope * (length ^ exponent)
-setnames(d.kimmerer, 
-         old = colnames(d.kimmerer),
+setnames(d.kim, 
+         old = colnames(d.kim),
          new = c(
             "common",
             "species",
-            "convert.biomass.slope",
+            "convert.biomass.slope.mm",
             "convert.biomass.exponent",
             "biomassconvert.lengthtype",
-            "convert.fl2tl.Kimmerer",
-            "convert.tl2sl.Kimmerer",
-            "nothing_col",
+            "convert.fl2tl.kim",
+            "convert.tl2sl.kim",
+            "delete1",
             "reference"
 ))
-d.kimmerer[, nothing_col := NULL]
+d.kim[, delete1 := NULL]
 
-d.schneider <- fread("Schneider L-W Table.csv")
+d.sch <- fread("Schneider L-W Table.csv")
 # note: for Schneider, log10(mass) = intercept + slope * log10(length)
-setnames(d.schneider, 
-         old = colnames(d.schneider),
+setnames(d.sch, 
+         old = colnames(d.sch),
          new = c(
             "common",
             "convert.biomass.exponent",
@@ -213,6 +215,50 @@ setnames(d.schneider,
             "delete2"
 ))
 
+d.sch[, delete1 := NULL]
+d.sch[, delete2 := NULL]
+
+
+d.perry <- fread("Sarah Perry Raw Param.csv")
+# note: for Perry, mass = slope * (length ^ exponent)
+setnames(d.perry, 
+         old = colnames(d.perry),
+         new = c(
+           "delete1",
+           "common",
+           "delete2",
+           "convert.biomass.slope.mm",
+           "convert.biomass.exponent",
+           "weighting.avg",
+           "delete3",
+           "param.lmin",
+           "param.lmax",
+           "biomassconvert.lengthtype",
+           "delete4",
+           "delete5",
+           "delete6",
+           "param.n",
+           "param.country",
+           "param.locality",
+           "param.ref",
+           "delete7",
+           "source"
+))
+
+# remove unneeded columns
+d.perry[, delete1 := NULL]
+d.perry[, delete2 := NULL]
+d.perry[, delete3 := NULL]
+d.perry[, delete4 := NULL]
+d.perry[, delete5 := NULL]
+d.perry[, delete6 := NULL]
+d.perry[, delete7 := NULL]
+
+# remove empty rows
+d.perry <- d.perry[common != "", ]
+
+# create table of species with conversion info for each lengthtype in perry for reference
+d.perry.unique <- unique(d.perry[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
 
 
 ```
@@ -228,21 +274,44 @@ setnames(suisun.catch.species, old = c("V1"), new = c("common"))
 suisun.catch.species[, ds := "T"]
 
 # for possible perusal, create list of species in combined conversion databases 
-#  (note only Kimmerer has biomass conversions)
-paste(str(d.fx3.unique), str(d.kimmerer))
+#  (note d.fx3 does NOT have biomass conversions, while d.perry & d.sch do not have length type conversions)
+paste(str(d.fx3.unique), str(d.kim))
 
 # Create column to track conversion table species through merge processes (i.e. species in each table)
 d.fx3.unique[, dfx3 := "T"]
-d.kimmerer[, dk := "T"]
+d.kim[, dk := "T"]
+d.sch[, dsch := "T"]
+d.perry.unique[, dp := "T"]
+# convert d.perry.unique from long format to wide format
+d.perry.unique.wide <- spread(d.perry.unique, key = lengthtype, value = dp)
+ 
+setnames(d.perry.unique.wide, 
+         old = colnames(d.perry.unique.wide),
+         new = c(
+           "common",
+           "no.lengthtype",
+           "dp.fl",
+           "dp.sl",
+           "dp.tl"
+))
 
 # join conversion table data to species list from suisun to see what we have and what we need
-d.biomass.convert.merge <- merge(d.fx3.unique, d.kimmerer, by = c("common"), all = TRUE)
+d.convertcheck.merge1 <- merge(d.fx3.unique[, .(common, dfx3)], d.kim[, .(common, dk)], by = c("common"), all = TRUE)
+d.convertcheck.merge2 <- merge(d.sch[, .(common, dsch)], by = c("common"), all = TRUE)
+d.convertcheck.merge3 <- merge(d.perry.unique[, .(common, dp)], by = c("common"), all = TRUE)
+
 d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
 
-# reorder columns in above two tables for easier diagnostic viewing
-d.biomass.merge <- setcolorder(d.biomass.convert.merge, c("common", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
+##############OLD DIAGNOSTIC TABLE #################
+## join conversion table data to species list from suisun to see what we have and what we need
+#d.biomass.convert.merge <- merge(d.fx3.unique[, .(common, dfx3)], d.kim, by = c("common"), all = TRUE)
+#d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
+####################################################
 
-d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.Kimmerer", "convert.tl.fl", "convert.fl2tl.Kimmerer", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
+# reorder columns in above two tables for easier diagnostic viewing
+d.biomass.merge <- setcolorder(d.biomass.convert.merge, c("common", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.kim", "convert.tl.fl", "convert.fl2tl.kim", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
+
+d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.kim", "convert.tl.fl", "convert.fl2tl.kim", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
 
 # above tables reordered for diagnostic viewing
 # d.biomass.convert.merge[order(common)]
@@ -250,7 +319,7 @@ d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx
 
 ### DIAGNOSTIC ZONE ###
 # str(d.suisun)
-d.biomass.merge2[, .(common, convert.tl.sl, convert.tl.fl, convert.tl2sl.Kimmerer, convert.fl2tl.Kimmerer)]
+d.biomass.merge2[, .(common, convert.tl.sl, convert.tl.fl, convert.tl2sl.kim, convert.fl2tl.kim)]
 
 ```
 
@@ -261,7 +330,7 @@ CREATE TABLE OF MISSING SPECIES AND COMPARE TO PLOTS OF SPECIES PREVELANCE AND C
 
 # Suisun catch species with missing biomass conversions
 d.missing.bioconversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
-d.having.bioconversion <-  d.kimmerer[reference == "Kimmerer et al", .(common, dk)]
+d.having.bioconversion <-  d.kim[reference == "Kimmerer et al", .(common, dk)]
 
 # Total catch number per species
 # str(d.suisun)

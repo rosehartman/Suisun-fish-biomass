@@ -1,4 +1,5 @@
-log10(W)=a+b?log10(L)W=lbsorg,,,,,Intercept for milligram weight,
+log10(W)=a+b?log10(L)W=lbsorg
+Intercept for milligram weight
 CommonName,slope,lgI(in),lgI(mm),Ltype,I(in),I(mm)
 Alewife,3.0637,-3.64198,-5.28911,SL,0.228044709,0.005139135
 LargemouthBass,3.12735,-3.43162,-5.16885,SL,0.370151915,0.006778756
@@ -29,7 +30,7 @@ JohnnyDarter,3.198,-3.5686,-5.404,SL,0.270022529,0.003944573
 RainbowDarter,3.403,-3.5391,-5.6619,SL,0.289001436,0.002178211
 FreshwaterDrum,3.1973,-3.6007,-5.4353,SL,0.250784101,0.003670287
 AmericanEel,3.47,-4.722,-6.94,SL,0.018967059,0.000114815
-LongnoseGar,3.507,-4.7973,-7.067,SL,0.015947771,8.57038E-05
+LongnoseGar,3.507,-4.7973,-7.067,SL,0.015947771,8.57E-05
 ShortnoseGar,2.9811,-3.873,-5.4039,SL,0.133967669,0.003945481
 LakeHerring,2.85755,-3.45588,-4.81321,SL,0.350041874,0.015374111
 Killifishall,3.326,-3.5513,-5.5659,SL,0.280995911,0.002717065
