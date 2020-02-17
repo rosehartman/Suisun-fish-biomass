@@ -178,6 +178,12 @@ setnames(d.fx3,
 
 d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl2sl.fx3, convert.tl2fl.fx3)][order(common)])
 d.fx3.unique[, convert.sl2tl.fx3 := 1/convert.tl2sl.fx3]
+d.fx3.unique.l2l <- d.fx3.unique[, .(common, convert.tl2fl.fx3, convert.tl2sl.fx3)]
+d.fx3.unique.l2l[!is.na(convert.tl2fl.fx3), fx3.fl2tl := "T"]
+d.fx3.unique.l2l[!is.na(convert.tl2sl.fx3), fx3.tl2sl := "T"]
+d.fx3.unique.l2l[, convert.tl2fl.fx3 := NULL]
+d.fx3.unique.l2l[, convert.tl2sl.fx3 := NULL]
+
 rm(d.fx3)
 ```
 
@@ -201,6 +207,29 @@ setnames(d.kim,
 ))
 d.kim[, delete1 := NULL]
 
+# make table for later merge showing species with fl or sl biomass conversions
+d.kim.unique.bm <- unique(d.kim[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.kim.unique.bm[!is.na(lengthtype), dk := "T"]
+d.kim.unique.bmwide <- spread(d.kim.unique.bm, key = lengthtype, value = dk)
+setnames(d.kim.unique.bmwide, 
+         old = colnames(d.kim.unique.bmwide),
+         new = c(
+            "common",
+            "kim.fl",
+            "kim.sl"
+))
+
+# make table for later merge showing species with length type conversions
+d.kim.unique.l2l <- unique(d.kim[, .(common, convert.fl2tl.kim, convert.tl2sl.kim)])
+d.kim.unique.l2l[!is.na(convert.fl2tl.kim), kim.fl2tl := "T"]
+d.kim.unique.l2l[!is.na(convert.tl2sl.kim), kim.tl2sl := "T"]
+# drop the old numeric columns
+d.kim.unique.l2l[, convert.fl2tl.kim := NULL]
+d.kim.unique.l2l[, convert.tl2sl.kim := NULL]
+# drop rows with no T values to get rid of duplicate American Shad row
+d.kim.unique.l2l <- d.kim.unique.l2l[!is.na(kim.fl2tl) | !is.na(kim.tl2sl), ]
+
+###############################
 d.sch <- fread("Schneider L-W Table.csv")
 # note: for Schneider, log10(mass) = intercept + slope * log10(length)
 setnames(d.sch, 
@@ -218,7 +247,17 @@ setnames(d.sch,
 d.sch[, delete1 := NULL]
 d.sch[, delete2 := NULL]
 
+d.sch.unique.bm <- unique(d.sch[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.sch.unique.bm[!is.na(lengthtype), dsch := "T"]
+d.sch.unique.bmwide <- spread(d.sch.unique.bm, key = lengthtype, value = dsch)
+setnames(d.sch.unique.bmwide, 
+         old = colnames(d.sch.unique.bmwide),
+         new = c(
+            "common",
+            "sch.fl"
+))
 
+###################################
 d.perry <- fread("Sarah Perry Raw Param.csv")
 # note: for Perry, mass = slope * (length ^ exponent)
 setnames(d.perry, 
@@ -258,8 +297,29 @@ d.perry[, delete7 := NULL]
 d.perry <- d.perry[common != "", ]
 
 # create table of species with conversion info for each lengthtype in perry for reference
-d.perry.unique <- unique(d.perry[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.perry.unique.bm <- unique(d.perry[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.perry.unique.bm[, dp := "T"]
+# convert d.perry.unique from long format to wide format
+d.perry.unique.bmwide <- spread(d.perry.unique.bm, key = lengthtype, value = dp)
+ 
+setnames(d.perry.unique.bmwide, 
+         old = colnames(d.perry.unique.bmwide),
+         new = c(
+           "common",
+           "dp.lengthtype.unknown",
+           "dp.fl",
+           "dp.sl",
+           "dp.tl"
+))
 
+####################
+## DIAGNOSTIC ZONE
+d.perry[, .(.N, a.average = mean(convert.biomass.slope.mm), a.sd = sd(convert.biomass.slope.mm), b.average = mean(convert.biomass.exponent), b.sd = sd(convert.biomass.exponent)), by = .(common, biomassconvert.lengthtype)]
+
+g <- ggplot(d.perry, aes(common, convert.biomass.slope.mm, fill = biomassconvert.lengthtype))
+g + geom_boxplot()
+
+d.perry[convert.biomass.slope.mm > 3]
 
 ```
 
@@ -275,51 +335,31 @@ suisun.catch.species[, ds := "T"]
 
 # for possible perusal, create list of species in combined conversion databases 
 #  (note d.fx3 does NOT have biomass conversions, while d.perry & d.sch do not have length type conversions)
-paste(str(d.fx3.unique), str(d.kim))
+paste(str(d.fx3.unique), str(d.kim), str(d.sch), str(d.perry))
 
-# Create column to track conversion table species through merge processes (i.e. species in each table)
-d.fx3.unique[, dfx3 := "T"]
-d.kim[, dk := "T"]
-d.sch[, dsch := "T"]
-d.perry.unique[, dp := "T"]
-# convert d.perry.unique from long format to wide format
-d.perry.unique.wide <- spread(d.perry.unique, key = lengthtype, value = dp)
- 
-setnames(d.perry.unique.wide, 
-         old = colnames(d.perry.unique.wide),
-         new = c(
-           "common",
-           "no.lengthtype",
-           "dp.fl",
-           "dp.sl",
-           "dp.tl"
-))
+d.convertcheck.merge1 <- merge(
+  d.kim.unique.l2l[, .(common, kim.fl2tl, kim.tl2sl)], 
+  d.fx3.unique.l2l[, .(  common, fx3.fl2tl, fx3.tl2sl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge2 <- merge(
+  d.convertcheck.merge1, 
+  d.kim.unique.bmwide[, .(common, kim.sl, kim.fl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge3 <- merge(
+  d.convertcheck.merge2, 
+  d.perry.unique.bmwide[, .(common, dp.lengthtype.unknown, dp.sl, dp.fl, dp.tl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge4 <- merge(
+  d.convertcheck.merge3, 
+  d.sch.unique.bmwide, 
+  by = c("common"), all = TRUE)
 
-# join conversion table data to species list from suisun to see what we have and what we need
-d.convertcheck.merge1 <- merge(d.fx3.unique[, .(common, dfx3)], d.kim[, .(common, dk)], by = c("common"), all = TRUE)
-d.convertcheck.merge2 <- merge(d.sch[, .(common, dsch)], by = c("common"), all = TRUE)
-d.convertcheck.merge3 <- merge(d.perry.unique[, .(common, dp)], by = c("common"), all = TRUE)
+d.biomass.convert.merge <- merge(suisun.catch.species, d.convertcheck.merge4, by = "common", all.x = TRUE)
 
-d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
-
-##############OLD DIAGNOSTIC TABLE #################
-## join conversion table data to species list from suisun to see what we have and what we need
-#d.biomass.convert.merge <- merge(d.fx3.unique[, .(common, dfx3)], d.kim, by = c("common"), all = TRUE)
-#d.biomass.convert.merge2 <- merge(suisun.catch.species, d.biomass.convert.merge, by = "common", all = TRUE)
-####################################################
-
-# reorder columns in above two tables for easier diagnostic viewing
-d.biomass.merge <- setcolorder(d.biomass.convert.merge, c("common", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.kim", "convert.tl.fl", "convert.fl2tl.kim", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
-
-d.biomass.merge2 <- setcolorder(d.biomass.convert.merge2, c("common", "ds", "dfx3", "dk", "species.x", "species.y", "convert.tl.sl", "convert.tl2sl.kim", "convert.tl.fl", "convert.fl2tl.kim", "convert.biomass.slope", "convert.biomass.exponent", "biomassconvert.lengthtype", "reference"))
-
-# above tables reordered for diagnostic viewing
-# d.biomass.convert.merge[order(common)]
-# d.biomass.convert.merge2[order(common)]
+fwrite(d.biomass.convert.merge, "conversion data per species.csv")
 
 ### DIAGNOSTIC ZONE ###
-# str(d.suisun)
-d.biomass.merge2[, .(common, convert.tl.sl, convert.tl.fl, convert.tl2sl.kim, convert.fl2tl.kim)]
+
 
 ```
 

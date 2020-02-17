@@ -541,4 +541,4 @@ WHC,White Catfish,Ameiurus catus,0.01202,3.01,0.7,unsexed,2.5,40.6,TL,,,,137,USA
 WHC,White Catfish,Ameiurus catus,0.01403,3.006,0.7,unsexed,10,48.3,FL,,,,,USA,"Pine Flat Lake, California","Carlander, 1969",3672,DB
 WST,White Sturgeon,Acipenser transmontanus,0.00285,3.23,0.7,unsexed,54,263,FL,,,,5222,USA,Lower Columbia River.,"Devore et al., 1995",34045,DB
 WST,White Sturgeon,Acipenser transmontanus,0.00199,3.19,0.94,mixed,,,FL,0.939,,,124,USA,California,"Brennan and Cailliet, 1991",52324,DB
-RFS,Riffle Sculpin,Cottus gulosus,3.25202,0.008974081,1,,,,,,,,,USA,Michigan,"Schneider et al., 2000",,Paper
+RFS,Riffle Sculpin,Cottus gulosus,0.008974081,3.25202,1,,,,,,,,,USA,Michigan,"Schneider et al., 2000",,Paper
