@@ -161,31 +161,7 @@ Classes ‘data.table’ and 'data.frame':	254161 obs. of  35 variables:
  $ CatchComments      : chr  "" "" "" "" ...
  - attr(*, ".internal.selfref")=<externalptr> 
 _________________________________________________________________________________________________
-PRODUCE LENGTH-LENGTH CONVERSION TABLE
-```{r}
-d.fx3 <- fread("FX3_SwimTable.csv")
 
-setnames(d.fx3, 
-         old = colnames(d.fx3),
-         new = c(
-            "species",
-            "common",
-            "convert.tl2sl.fx3",
-            "convert.tl2fl.fx3",
-            "reference"
-))
-
-
-d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.tl2sl.fx3, convert.tl2fl.fx3)][order(common)])
-d.fx3.unique[, convert.sl2tl.fx3 := 1/convert.tl2sl.fx3]
-d.fx3.unique.l2l <- d.fx3.unique[, .(common, convert.tl2fl.fx3, convert.tl2sl.fx3)]
-d.fx3.unique.l2l[!is.na(convert.tl2fl.fx3), fx3.fl2tl := "T"]
-d.fx3.unique.l2l[!is.na(convert.tl2sl.fx3), fx3.tl2sl := "T"]
-d.fx3.unique.l2l[, convert.tl2fl.fx3 := NULL]
-d.fx3.unique.l2l[, convert.tl2sl.fx3 := NULL]
-
-rm(d.fx3)
-```
 
 
 PRODUCE LENGTH-BIOMASS CONVERSION TABLES
@@ -200,12 +176,13 @@ setnames(d.kim,
             "convert.biomass.slope.mm",
             "convert.biomass.exponent",
             "biomassconvert.lengthtype",
-            "convert.fl2tl.kim",
-            "convert.tl2sl.kim",
+            "convert.tl2fl.kim",
+            "convert.sl2tl.kim",
             "delete1",
             "reference"
 ))
 d.kim[, delete1 := NULL]
+d.kim[, convert.fl2tl.kim := 1/convert.tl2fl.kim]
 
 # make table for later merge showing species with fl or sl biomass conversions
 d.kim.unique.bm <- unique(d.kim[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
@@ -322,7 +299,36 @@ g + geom_boxplot()
 d.perry[convert.biomass.slope.mm > 3]
 
 ```
+PRODUCE LENGTH-LENGTH CONVERSION TABLE
+```{r}
+d.fx3 <- fread("FX3_SwimTable.csv")
 
+setnames(d.fx3, 
+         old = colnames(d.fx3),
+         new = c(
+            "species",
+            "common",
+            "convert.sl2tl.fx3",
+            "convert.fl2tl.fx3",
+            "reference"
+))
+
+
+d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.sl2tl.fx3, convert.fl2tl.fx3)][order(common)])
+d.fx3.unique[, convert.tl2sl.fx3 := 1/convert.sl2tl.fx3]
+d.fx3.unique.l2l <- d.fx3.unique[, .(common, convert.fl2tl.fx3, convert.sl2tl.fx3)]
+d.fx3.unique.l2l[!is.na(convert.fl2tl.fx3), fx3.fl2tl := "T"]
+d.fx3.unique.l2l[!is.na(convert.sl2tl.fx3), fx3.tl2sl := "T"]
+d.fx3.unique.l2l[, convert.fl2tl.fx3 := NULL]
+d.fx3.unique.l2l[, convert.sl2tl.fx3 := NULL]
+
+rm(d.fx3)
+
+merge(
+  d.kim[, .(common, convert.fl2tl.kim, convert.sl2tl.kim)], 
+  d.fx3.unique[, .(  common, convert.fl2tl.fx3, convert.sl2tl.fx3)], 
+  by = c("common"), all = TRUE)
+```
 
 DETERMINE SPECIES MISSING LENGTH-BIOMASS CONVERSION PARAMETERS
 ```{r}
