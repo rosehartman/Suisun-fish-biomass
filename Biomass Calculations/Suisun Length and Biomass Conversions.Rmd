@@ -176,13 +176,13 @@ setnames(d.kim,
             "convert.biomass.slope.mm",
             "convert.biomass.exponent",
             "biomassconvert.lengthtype",
-            "convert.tl2fl.kim",
-            "convert.sl2tl.kim",
+            "frac.fl2tl.kim",
+            "frac.tl2sl.kim",
             "delete1",
             "reference"
 ))
 d.kim[, delete1 := NULL]
-d.kim[, convert.fl2tl.kim := 1/convert.tl2fl.kim]
+d.kim[, frac.fl2sl.kim := frac.fl2tl.kim * frac.tl2sl.kim]
 
 # make table for later merge showing species with fl or sl biomass conversions
 d.kim.unique.bm <- unique(d.kim[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
@@ -197,14 +197,14 @@ setnames(d.kim.unique.bmwide,
 ))
 
 # make table for later merge showing species with length type conversions
-d.kim.unique.l2l <- unique(d.kim[, .(common, convert.fl2tl.kim, convert.tl2sl.kim)])
-d.kim.unique.l2l[!is.na(convert.fl2tl.kim), kim.fl2tl := "T"]
-d.kim.unique.l2l[!is.na(convert.tl2sl.kim), kim.tl2sl := "T"]
+d.kim.unique.l2l <- unique(d.kim[, .(common, frac.tl2fl.kim, frac.fl2sl.kim)])
+d.kim.unique.l2l[!is.na(frac.tl2sl.kim), kim.tl2sl := "T"]
+d.kim.unique.l2l[!is.na(frac.fl2sl.kim), kim.fl2sl := "T"]
 # drop the old numeric columns
-d.kim.unique.l2l[, convert.fl2tl.kim := NULL]
-d.kim.unique.l2l[, convert.tl2sl.kim := NULL]
+d.kim.unique.l2l[, convert.sl2tl.kim := NULL]
+d.kim.unique.l2l[, frac.fl2sl.kim := NULL]
 # drop rows with no T values to get rid of duplicate American Shad row
-d.kim.unique.l2l <- d.kim.unique.l2l[!is.na(kim.fl2tl) | !is.na(kim.tl2sl), ]
+d.kim.unique.l2l <- d.kim.unique.l2l[!is.na(kim.tl2sl) | !is.na(kim.fl2sl), ]
 
 ###############################
 d.sch <- fread("Schneider L-W Table.csv")
@@ -308,26 +308,29 @@ setnames(d.fx3,
          new = c(
             "species",
             "common",
-            "convert.sl2tl.fx3",
-            "convert.fl2tl.fx3",
+            "frac.tl2sl.fx3",
+            "frac.tl2fl.fx3",
             "reference"
 ))
 
+d.fx3[, frac.fl2sl.fx3 := (1/frac.tl2fl.fx3) * frac.tl2sl.fx3]
 
-d.fx3.unique <- unique(d.fx3[species != "", .(species, common, convert.sl2tl.fx3, convert.fl2tl.fx3)][order(common)])
-d.fx3.unique[, convert.tl2sl.fx3 := 1/convert.sl2tl.fx3]
-d.fx3.unique.l2l <- d.fx3.unique[, .(common, convert.fl2tl.fx3, convert.sl2tl.fx3)]
-d.fx3.unique.l2l[!is.na(convert.fl2tl.fx3), fx3.fl2tl := "T"]
-d.fx3.unique.l2l[!is.na(convert.sl2tl.fx3), fx3.tl2sl := "T"]
-d.fx3.unique.l2l[, convert.fl2tl.fx3 := NULL]
-d.fx3.unique.l2l[, convert.sl2tl.fx3 := NULL]
+d.fx3.unique <- unique(d.fx3[species != "", .(species, common, frac.tl2sl.fx3, frac.fl2sl.fx3)][order(common)])
+d.fx3.unique.l2l <- d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)]
+d.fx3.unique.l2l[!is.na(frac.tl2sl.fx3), fx3.tl2sl := "T"]
+d.fx3.unique.l2l[!is.na(frac.fl2sl.fx3), fx3.fl2sl := "T"]
+d.fx3.unique.l2l[, frac.tl2sl.fx3 := NULL]
+d.fx3.unique.l2l[, frac.fl2sl.fx3 := NULL]
 
 rm(d.fx3)
 
 merge(
-  d.kim[, .(common, convert.fl2tl.kim, convert.sl2tl.kim)], 
-  d.fx3.unique[, .(  common, convert.fl2tl.fx3, convert.sl2tl.fx3)], 
+  d.kim[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
+  d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
   by = c("common"), all = TRUE)
+
+# DIAGNOSTIC
+str(d.fx3.unique)
 ```
 
 DETERMINE SPECIES MISSING LENGTH-BIOMASS CONVERSION PARAMETERS
