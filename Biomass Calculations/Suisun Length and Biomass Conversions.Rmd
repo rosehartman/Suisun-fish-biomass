@@ -368,10 +368,19 @@ d.fx3.unique.l2l[, frac.fl2sl.fx3 := NULL]
 
 rm(d.fx3)
 
-merge(
+d.frac.l2l <- merge(
   d.kim[, .(common, frac.tl2sl.kim, frac.fl2sl.kim)], 
   d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
   by = c("common"), all = TRUE)
+
+# delete any value in d.frac.l2l that is less than one, which is impossible since sl will always be less that either tl or fl.
+d.frac.l2l[frac.tl2sl.kim < 1, frac.tl2sl.kim := NA]
+d.frac.l2l[frac.fl2sl.kim < 1, frac.fl2sl.kim := NA]
+d.frac.l2l[frac.tl2sl.fx3 < 1, frac.tl2sl.fx3 := NA]
+d.frac.l2l[frac.fl2sl.fx3 < 1, frac.fl2sl.fx3 := NA]
+
+d.frac.l2l[, frac.tl.2sl := mean(frac.tl2sl.kim, frac.tl2sl.fx3)]
+d.frac.l2l[, frac.fl.2sl := mean(frac.fl2sl.kim, frac.fl2sl.fx3)]
 
 ```
 
