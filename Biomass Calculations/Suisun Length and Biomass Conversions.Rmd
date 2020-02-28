@@ -5,9 +5,53 @@ output: html_notebook
 
 ```{r}
 pacman::p_load(data.table, readxl, dplyr, lubridate, tidyr, ggplot2, RODBC)
+rm(list = ls(all.names = TRUE))
 
 ```
 
+OUTLINE OF WORK FLOW
+1) download Suisun fish database bits and gang together
+2) download biomass conversions from various sources
+3) download length-type conversion data and transform into fraction of tl/sl or fl/sl.
+4) convert slope in power equation from tl or fl to sl, because Suisun database all in sl.
+(see below for more on slope conversion equation)
+5) find average exponent and slope across all literature references
+6) use average parameter values to calculate biomass for each fish.
+7) sum biomass across various grouping factors for stats analysis.
+
+IMPORTANT NOTES
+1) the power equation exponent (b) is equivalent to the log-transformed equation slope (b).
+2) the power equation slope (a) is equivalent to the log-transoformed equation asymptote (a).
+3) the exponent parameter value in the power equation (b) is the same regardless of length type, so does not require conversion.
+4) the slope parameter value in the power equation (a) is NOT the same across length types and must be converted prior to averaging across literature values.
+
+POWER EQUATION AND LOG-LOG EQUATION
+W = a * L^b
+ln(W) = ln(a) + b*L
+
+TRANSFORMATION OF a BETWEEN LENGTH TYPES (L1 to L2)
+W = a1 * L1^b
+W = a2 * L2^b
+
+- divide equations 
+W/W = [a1 * L1^b] / [a2 * L2^b]
+
+- since W/W = 1
+a2 * L2^b = a1 * L1^b
+
+a2/a1 = L1^b / L2^b
+
+- since b is the same value for all length types
+L1^b / L2^b = (L1/L2)^b
+AND
+a2/a1 = (L1/L2)^b
+
+a2 = a1 * (L1/L2)^b
+
+**this is why we need the fractions of tl/sl or fl/sl (L1/L2 above) to convert a between length types.  
+
+____________________________________________________________________________________
+____________________________________________________________________________________
 
 DOWNLOAD SUISUN DATA AND PRODUCE SPECIES LIST
 -data tables used in Suisun Marsh Database:
@@ -197,7 +241,7 @@ setnames(d.kim.unique.bmwide,
 ))
 
 # make table for later merge showing species with length type conversions
-d.kim.unique.l2l <- unique(d.kim[, .(common, frac.tl2fl.kim, frac.fl2sl.kim)])
+d.kim.unique.l2l <- unique(d.kim[, .(common, frac.tl2sl.kim, frac.fl2sl.kim)])
 d.kim.unique.l2l[!is.na(frac.tl2sl.kim), kim.tl2sl := "T"]
 d.kim.unique.l2l[!is.na(frac.fl2sl.kim), kim.fl2sl := "T"]
 # drop the old numeric columns
@@ -325,12 +369,10 @@ d.fx3.unique.l2l[, frac.fl2sl.fx3 := NULL]
 rm(d.fx3)
 
 merge(
-  d.kim[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
+  d.kim[, .(common, frac.tl2sl.kim, frac.fl2sl.kim)], 
   d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
   by = c("common"), all = TRUE)
 
-# DIAGNOSTIC
-str(d.fx3.unique)
 ```
 
 DETERMINE SPECIES MISSING LENGTH-BIOMASS CONVERSION PARAMETERS
