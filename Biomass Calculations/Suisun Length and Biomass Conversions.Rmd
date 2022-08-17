@@ -5,9 +5,53 @@ output: html_notebook
 
 ```{r}
 pacman::p_load(data.table, readxl, dplyr, lubridate, tidyr, ggplot2, RODBC)
+rm(list = ls(all.names = TRUE))
 
 ```
 
+OUTLINE OF WORK FLOW
+1) download Suisun fish database bits and gang together
+2) download biomass conversions from various sources
+3) download length-type conversion data and transform into fraction of tl/sl or fl/sl.
+4) convert slope in power equation from tl or fl to sl, because Suisun database all in sl.
+(see below for more on slope conversion equation)
+5) find average exponent and slope across all literature references
+6) use average parameter values to calculate biomass for each fish.
+7) sum biomass across various grouping factors for stats analysis.
+
+IMPORTANT NOTES
+1) the power equation exponent (b) is equivalent to the log-transformed equation slope (b).
+2) the power equation slope (a) is equivalent to the log-transoformed equation asymptote (a).
+3) the exponent parameter value in the power equation (b) is the same regardless of length type, so does not require conversion.
+4) the slope parameter value in the power equation (a) is NOT the same across length types and must be converted prior to averaging across literature values.
+
+POWER EQUATION AND LOG-LOG EQUATION
+W = a * L^b
+ln(W) = ln(a) + b*L
+
+TRANSFORMATION OF a BETWEEN LENGTH TYPES (L1 to L2)
+W = a1 * L1^b
+W = a2 * L2^b
+
+- divide equations 
+W/W = [a1 * L1^b] / [a2 * L2^b]
+
+- since W/W = 1
+a2 * L2^b = a1 * L1^b
+
+a2/a1 = L1^b / L2^b
+
+- since b is the same value for all length types
+L1^b / L2^b = (L1/L2)^b
+AND
+a2/a1 = (L1/L2)^b
+
+a2 = a1 * (L1/L2)^b
+
+**this is why we need the fractions of tl/sl or fl/sl (L1/L2 above) to convert a between length types.  
+
+____________________________________________________________________________________
+____________________________________________________________________________________
 
 DOWNLOAD SUISUN DATA AND PRODUCE SPECIES LIST
 -data tables used in Suisun Marsh Database:
@@ -40,13 +84,6 @@ NOTE: The CatchExpansion table contains a row for every fish caught by duplicati
        CatchRowID and SampleRowID for every Count in d.catch, and assigning a      
        new field, "Record", assigned values of 1 to Count. The CatchExpansion 
        table will NOT be used in this analysis.                                               
-
-```{r}
-library(RODBC)    #loads the RODBC package
-dta <- odbcConnectAccess2007("C:/Users/bharvey/Documents/Suisun Fish Biomass/Biomass Calculations/SuisunMarshFish2017_11_18_19_GuestPWuser.accdb", uid = "Guest", pwd = "user")   #opens database connection
-df1 <- sqlFetch(dta, "bar")   #loads the table called 'bar' in the original Access file
-df2 <- sqlFetch(dta, "bin")   #loads the table called 'bin' in the original Access file
-```
 
 
 ```{r}
@@ -88,7 +125,10 @@ d.sample1.3[, i.StartMeter := NULL]
 d.sample1.3[, i.EndMeter := NULL]
 
 # Bind rows for table sets: catch, catchexpansion, depth, sample 
-d.catch <- rbind(d.catch1, d.catch2)
+d.catch.bind <- rbind(d.catch1, d.catch2)
+# add common and sci names to catch
+d.organisms.4join <- d.organisms[, .(OrganismCode, CommonName, "Species" = paste(Genus," ", Species))]
+d.catch <- d.organisms.4join[d.catch.bind, on = .(OrganismCode)]
 # d.catchexpansion <- rbind(d.catchexpansion1, d.catchexpansion2)
 d.depth <- rbind(d.depth1, d.depth2)
 d.sample <- rbind(d.sample1.3, d.sample2)
@@ -117,10 +157,10 @@ d.suisun <- d.depth.avg[d.sample[d.catch, on = .(SampleRowID)], on = .(SampleRow
 
 
 ############ DIAGNOSTIC ZONE
-str(d.catch)
-str(d.catchexpansion)
-str(d.depth)
-str(d.suisun)
+# str(d.catch)
+# str(d.catchexpansion)
+# str(d.depth)
+# str(d.suisun)
 
 
 ```
@@ -165,7 +205,145 @@ Classes ‘data.table’ and 'data.frame':	254161 obs. of  35 variables:
  $ CatchComments      : chr  "" "" "" "" ...
  - attr(*, ".internal.selfref")=<externalptr> 
 _________________________________________________________________________________________________
-PRODUCE LENGTH CONVERSION TABLE
+
+
+
+PRODUCE LENGTH-BIOMASS CONVERSION TABLES
+```{r}
+d.kim <- fread("Kimmerer L-W Table.csv")
+# note: for Kimmerer, mass = slope * (length ^ exponent)
+setnames(d.kim, 
+         old = colnames(d.kim),
+         new = c(
+            "common",
+            "species",
+            "convert.biomass.slope.mm",
+            "convert.biomass.exponent",
+            "biomassconvert.lengthtype",
+            "frac.fl2tl.kim",
+            "frac.tl2sl.kim",
+            "delete1",
+            "reference"
+))
+d.kim[, delete1 := NULL]
+d.kim[, frac.fl2sl.kim := frac.fl2tl.kim * frac.tl2sl.kim]
+
+# make table for later merge showing species with fl or sl biomass conversions
+d.kim.unique.bm <- unique(d.kim[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.kim.unique.bm[!is.na(lengthtype), dk := "T"]
+d.kim.unique.bmwide <- spread(d.kim.unique.bm, key = lengthtype, value = dk)
+setnames(d.kim.unique.bmwide, 
+         old = colnames(d.kim.unique.bmwide),
+         new = c(
+            "common",
+            "kim.fl",
+            "kim.sl"
+))
+
+# make table for later merge showing species with length type conversions
+d.kim.unique.l2l <- unique(d.kim[, .(common, frac.tl2sl.kim, frac.fl2sl.kim)])
+d.kim.unique.l2l[!is.na(frac.tl2sl.kim), kim.tl2sl := "T"]
+d.kim.unique.l2l[!is.na(frac.fl2sl.kim), kim.fl2sl := "T"]
+# drop the old numeric columns
+d.kim.unique.l2l[, convert.sl2tl.kim := NULL]
+d.kim.unique.l2l[, frac.fl2sl.kim := NULL]
+# drop rows with no T values to get rid of duplicate American Shad row
+d.kim.unique.l2l <- d.kim.unique.l2l[!is.na(kim.tl2sl) | !is.na(kim.fl2sl), ]
+
+###############################
+d.sch <- fread("Schneider L-W Table.csv")
+# note: for Schneider, log10(mass) = intercept + slope * log10(length)
+setnames(d.sch, 
+         old = colnames(d.sch),
+         new = c(
+            "common",
+            "convert.biomass.exponent",
+            "convert.biomass.slope.inch",
+            "convert.biomass.slope.mm",
+            "biomassconvert.lengthtype",
+            "delete1",
+            "delete2"
+))
+
+d.sch[, delete1 := NULL]
+d.sch[, delete2 := NULL]
+
+d.sch.unique.bm <- unique(d.sch[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.sch.unique.bm[!is.na(lengthtype), dsch := "T"]
+d.sch.unique.bmwide <- spread(d.sch.unique.bm, key = lengthtype, value = dsch)
+setnames(d.sch.unique.bmwide, 
+         old = colnames(d.sch.unique.bmwide),
+         new = c(
+            "common",
+            "sch.fl"
+))
+
+###################################
+d.perry <- fread("Sarah Perry Raw Param.csv")
+# note: for Perry, mass = slope * (length ^ exponent)
+setnames(d.perry, 
+         old = colnames(d.perry),
+         new = c(
+           "delete1",
+           "common",
+           "delete2",
+           "convert.biomass.slope.mm",
+           "convert.biomass.exponent",
+           "weighting.avg",
+           "delete3",
+           "param.lmin",
+           "param.lmax",
+           "biomassconvert.lengthtype",
+           "delete4",
+           "delete5",
+           "delete6",
+           "param.n",
+           "param.country",
+           "param.locality",
+           "param.ref",
+           "delete7",
+           "source"
+))
+
+# remove unneeded columns
+d.perry[, delete1 := NULL]
+d.perry[, delete2 := NULL]
+d.perry[, delete3 := NULL]
+d.perry[, delete4 := NULL]
+d.perry[, delete5 := NULL]
+d.perry[, delete6 := NULL]
+d.perry[, delete7 := NULL]
+
+# remove empty rows
+d.perry <- d.perry[common != "", ]
+
+# create table of species with conversion info for each lengthtype in perry for reference
+d.perry.unique.bm <- unique(d.perry[, .(common, lengthtype = biomassconvert.lengthtype)][order(common)])
+d.perry.unique.bm[, dp := "T"]
+# convert d.perry.unique from long format to wide format
+d.perry.unique.bmwide <- spread(d.perry.unique.bm, key = lengthtype, value = dp)
+ 
+setnames(d.perry.unique.bmwide, 
+         old = colnames(d.perry.unique.bmwide),
+         new = c(
+           "common",
+           "dp.lengthtype.unknown",
+           "dp.fl",
+           "dp.sl",
+           "dp.tl"
+))
+
+####################
+## DIAGNOSTIC ZONE
+d.perry[, .(.N, a.average = mean(convert.biomass.slope.mm), a.sd = sd(convert.biomass.slope.mm), b.average = mean(convert.biomass.exponent), b.sd = sd(convert.biomass.exponent)), by = .(common, biomassconvert.lengthtype)]
+
+g <- ggplot(d.perry, aes(common, convert.biomass.slope.mm, fill = biomassconvert.lengthtype))
+g + geom_boxplot()
+
+d.perry[convert.biomass.slope.mm > 3]
+
+```
+PRODUCE LENGTH-LENGTH CONVERSION TABLE
 ```{r}
 d.fx3 <- fread("FX3_SwimTable.csv")
 
@@ -174,45 +352,215 @@ setnames(d.fx3,
          new = c(
             "species",
             "common",
-            "convert.tl.sl",
-            "convert.tl.fl",
+            "frac.tl2sl.fx3",
+            "frac.tl2fl.fx3",
             "reference"
 ))
 
+d.fx3[, frac.fl2sl.fx3 := (1/frac.tl2fl.fx3) * frac.tl2sl.fx3]
 
-d.convert.length <- unique(d.fx3[species != "", .(species, common, convert.tl.sl, convert.tl.fl)][order(common)]) 
+d.fx3.unique <- unique(d.fx3[species != "", .(species, common, frac.tl2sl.fx3, frac.fl2sl.fx3)][order(common)])
+d.fx3.unique.l2l <- d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)]
+d.fx3.unique.l2l[!is.na(frac.tl2sl.fx3), fx3.tl2sl := "T"]
+d.fx3.unique.l2l[!is.na(frac.fl2sl.fx3), fx3.fl2sl := "T"]
+d.fx3.unique.l2l[, frac.tl2sl.fx3 := NULL]
+d.fx3.unique.l2l[, frac.fl2sl.fx3 := NULL]
+
+rm(d.fx3)
+
+d.frac.l2l <- merge(
+  d.kim[, .(common, frac.tl2sl.kim, frac.fl2sl.kim)], 
+  d.fx3.unique[, .(common, frac.tl2sl.fx3, frac.fl2sl.fx3)], 
+  by = c("common"), all = TRUE)
+
+# delete any value in d.frac.l2l that is less than one, which is impossible since sl will always be less that either tl or fl.
+d.frac.l2l[frac.tl2sl.kim < 1, frac.tl2sl.kim := NA]
+d.frac.l2l[frac.fl2sl.kim < 1, frac.fl2sl.kim := NA]
+d.frac.l2l[frac.tl2sl.fx3 < 1, frac.tl2sl.fx3 := NA]
+d.frac.l2l[frac.fl2sl.fx3 < 1, frac.fl2sl.fx3 := NA]
+
+d.frac.l2l[, frac.tl.2sl := rowMeans(d.frac.l2l[, .(frac.tl2sl.kim, frac.tl2sl.fx3)], na.rm = TRUE)]
+d.frac.l2l[, frac.fl.2sl := rowMeans(d.frac.l2l[, .(frac.fl2sl.kim, frac.fl2sl.fx3)], na.rm = TRUE)]
+
 ```
 
-
-PRODUCE LENGTH TO BIOMASS CONVERSION TABLE
+DETERMINE SPECIES MISSING LENGTH-BIOMASS CONVERSION PARAMETERS
 ```{r}
-d.kimmerer <- fread("Kimmerer L-W Table.csv")
-# note: for Kimmerer, mass = slope * (length ^ exponent)
-setnames(d.kimmerer, 
-         old = colnames(d.kimmerer),
-         new = c(
-            "common",
-            "species",
-            "convert.slope",
-            "convert.exponent",
-            "length.type",
-            "convert.fl2tl.Kimmerer",
-            "convert.tl2sl.Kimmerer",
-            "nothing_col",
-            "reference"
-))
+# Create list of all species ever caught in Suisun Marsh Sampling
+suisun.catch.species <- as.data.table(unique(d.catch[, CommonName]))
+setnames(suisun.catch.species, old = c("V1"), new = c("common"))
 
+# Create column to track Marsh database species through merge processes
+suisun.catch.species[, ds := "T"]
 
-############################ DIAGNOSTIC ZONE ############################
-paste(str(d.convert.length), str(d.kimmerer))
-# join conversion table data to species list from suisun to see what we have and what we need
-merge(a, b, by = "dog", all = TRUE)
+# for possible perusal, create list of species in combined conversion databases 
+#  (note d.fx3 does NOT have biomass conversions, while d.perry & d.sch do not have length type conversions)
+paste(str(d.fx3.unique), str(d.kim), str(d.sch), str(d.perry))
+
+d.convertcheck.merge1 <- merge(
+  d.kim.unique.l2l[, .(common, kim.fl2tl, kim.tl2sl)], 
+  d.fx3.unique.l2l[, .(  common, fx3.fl2tl, fx3.tl2sl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge2 <- merge(
+  d.convertcheck.merge1, 
+  d.kim.unique.bmwide[, .(common, kim.sl, kim.fl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge3 <- merge(
+  d.convertcheck.merge2, 
+  d.perry.unique.bmwide[, .(common, dp.lengthtype.unknown, dp.sl, dp.fl, dp.tl)], 
+  by = c("common"), all = TRUE)
+d.convertcheck.merge4 <- merge(
+  d.convertcheck.merge3, 
+  d.sch.unique.bmwide, 
+  by = c("common"), all = TRUE)
+
+d.biomass.convert.merge <- merge(suisun.catch.species, d.convertcheck.merge4, by = "common", all.x = TRUE)
+
+fwrite(d.biomass.convert.merge, "conversion data per species.csv")
+
+### DIAGNOSTIC ZONE ###
 
 
 ```
+
+
+
+CREATE TABLE OF MISSING SPECIES AND COMPARE TO PLOTS OF SPECIES PREVELANCE AND CONTRIBUTION TO BIOMASS
+```{r}
+
+# Suisun catch species with missing biomass conversions
+d.missing.bioconversion <- d.biomass.convert.merge2[ds == "T" & is.na(dk), ][order(common)]
+d.having.bioconversion <-  d.kim[reference == "Kimmerer et al", .(common, dk)]
+
+# Total catch number per species
+# str(d.suisun)
+d.suisun.summary <- d.suisun[, .(sum.catch.perspecies = sum(Count)), by = CommonName][order(-sum.catch.perspecies)]
+# join info on biomass conversion availability
+setkey(d.having.bioconversion, common)
+setkey(d.suisun.summary, CommonName)
+d.suisun.summary <- d.having.bioconversion[d.suisun.summary]
+d.suisun.summary[is.na(dk), dk := "F"]
+d.suisun.summary[, dk := as.factor(dk)]
+
+fwrite(d.suisun.summary, file = "Suisun Species Missing Bioconversion.csv")
+
+
+# Max proportion of catch per sample for each species
+ # create t1 as total catch per sample of all fish (rows = Nsample)
+ t1 <- d.suisun[, .(sum.catch.persample = sum(Count)), by = SampleRowID]
+ # create t2 as total catch per sample of each species (rows = species x Nsample)
+ t2 <- d.suisun[, .(sum.catch.persample.perspecies = sum(Count)), by = .(SampleRowID, CommonName)]
+ # left join t2 and t1 on sample # (rows = species x Nsample)
+ t.catchcounts <- t2[t1, on = .(SampleRowID)]
+ # add column to join table "species.proportion.persample" calculated as catch per species/catch per sample (represents proportionate catch per sample for each species)
+ t.catchcounts[, species.proportion.persample := sum.catch.persample.perspecies / sum.catch.persample]
+
+setkey(d.having.bioconversion, common)
+setkey(t.catchcounts, CommonName)
+t.catchcounts <- d.having.bioconversion[t.catchcounts]
+t.catchcounts[is.na(dk), dk := "F"]
+t.catchcounts[, dk := as.factor(dk)]
+ 
+ # create table of average and max species.proportion.persample
+ t.catchcounts.summary1 <- t.catchcounts[, mean(species.proportion.persample), by = .(common)]
+    setnames(t.catchcounts.summary1, old = "V1", new = "species.proportion.persample.avg")
+ t.catchcounts.summary2 <- t.catchcounts[, max(species.proportion.persample), by = .(common)]
+    setnames(t.catchcounts.summary2, old = "V1", new = "species.proportion.persample.max")
+ t.catchcounts.summary <- t.catchcounts.summary1[t.catchcounts.summary2, on = .(common)]
+
+setkey(d.having.bioconversion, common)
+setkey(t.catchcounts.summary, common)
+t.catchcounts.summary <- d.having.bioconversion[t.catchcounts.summary]
+t.catchcounts.summary[is.na(dk), dk := "F"]
+t.catchcounts.summary[, dk := as.factor(dk)]
+
+fwrite(t.catchcounts.summary, file = "Suisun Species Max Occurrence.csv")
+
+# plot histogram of total catch grouped by species (stats in plot?)
+dk.col <- ifelse(d.suisun.summary[order(-sum.catch.perspecies)]$dk == "T", "#00BFC4", "#F8766D")
+p <- ggplot(d.suisun.summary)
+p + geom_col(aes(reorder(common, -sum.catch.perspecies), sum.catch.perspecies, fill = dk)) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90)) +
+    theme(axis.text.x = element_text(color = dk.col))
+
+ggsave("Histogram Total Catch per Species.tiff", width = 16, height = 9)
+
+# plot histogram of average and max species.proportion.persample, grouped by species (stats in plot)
+dk.col <- ifelse(t.catchcounts.summary[order(-species.proportion.persample.max)]$dk == "T", "#00BFC4", "#F8766D")
+p <- ggplot(t.catchcounts.summary)
+p + geom_col(aes(reorder(common, -species.proportion.persample.max), species.proportion.persample.max, fill = dk)) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90)) +
+    theme(axis.text.x = element_text(color = dk.col))
+
+ggsave("Histogram Max Proportianate Catch per Species.tiff", width = 16, height = 9)
+
+# plot violin plot of species.proportion.persample, grouped by species
+p <- ggplot(t.catchcounts)
+p + geom_violin(aes(common, species.proportion.persample, fill = dk, col = dk)) + #, trim = FALSE
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90))
+
+ggsave("Violin Proportionate Catch per Species ColorFill Classic.tiff", width = 16, height = 9)
+  
+```
+
+
+
 
 
 NEXT STEPS
 - merge two above tables and compare length conversion factors
 - figure out if they are a major component of assemblage
 - calculate biomass!
+
+ROSEMARY CODE
+```{r}
+fishcatch = d.suisun
+
+str(fishcatch)
+
+#make a unique sample ID
+fishcatch = d.suisun[, sample := paste(StationCode, MethodCode, SampleDate)]
+fishcatch[, SampleDate := as.Date(SampleDate, "%m/%d/%Y")]
+fishcatch[, Year := year("SampleDate")]
+
+
+ggplot(fishcatch, aes(x = Year)) + geom_bar()+
+  facet_wrap(~StationCode, scales = "free_y")
+
+#table of samples per station per year
+samps = group_by(fishcatch, StationCode, Year, MethodCode) %>%
+  summarize(ntrawl = length(unique(sample)))
+
+#filter it to the past 20 years
+fishRecent = filter(fishcatch, Year > 1997)
+sampsRecent = filter(samps, Year >1997)
+
+#Check out which stations are sampled continuously
+stas = group_by(sampsRecent, StationCode, MethodCode) %>%
+  summarize(trawls = sum(ntrawl))
+
+#WE SHOULD probably take out all the beach seines, midwtaer trawls,
+#and all the stations that are sampled less than 20 times in the past 20 years
+
+fishR2 = filter(fishRecent, MethodCode == "OTR", StationCode %in% 
+                  stas$StationCode[which(stas$trawls>20)])
+
+#what stations are left?
+unique(fishR2$StationCode)
+
+#how does the sampling balance across months?
+fishR2$Month = month(fishR2$SampleDate)
+
+
+#it looks like we have roughly even distribution of samples across the year
+stas2 = group_by(fishR2, StationCode, Month) %>%
+  summarize(trawls = length(unique(sample)))
+ggplot(stas2, aes(x= Month, y = trawls)) + geom_bar(stat = "identity") +
+  facet_wrap(~StationCode)
+
+
+```
+

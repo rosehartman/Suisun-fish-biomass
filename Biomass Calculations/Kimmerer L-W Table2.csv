@@ -1,0 +1,35 @@
+common,species,slope,exponent,Ltype,FL/TL,TL/SL,W=slope*L^exp,reference,,
+American shad, Alosa supidissima,0.0074,3.09,FL,0.884955752,1.19,,Kimmerer et al,,
+American shad, Alosa supidissima,0.0071,3.11,SL,,,,Suisun,,x
+Arrow goby, Clevelandia ios,0.0035,3.19,FL,,,,Kimmerer et al,,?
+Bay goby, Lepidogobius lepidus,0.0015,3.38,FL,,,,Kimmerer et al,,?
+Chinook salmon, Oncorhynchus tshawytscha,0.0018,3.44,FL,0.970873786,1.14,,Kimmerer et al,,
+Common carp, Cyprinus carpio,0.067,2.85,SL,0.847457627,1.09,,Suisun,,
+Delta smelt, Hypomesus transpacificus,0.0018,3.38,FL,0.970873786,1.14,,Kimmerer et al,,
+Delta smelt, Hypomesus transpacificus,0.005,3.15,SL,,,,Suisun,,x
+Inland silverside, Menidia beryllina,0.0097,2.87,FL,,,,Kimmerer et al,,?
+Longfin smelt, Spirinchus thaleichthys,0.0005,3.69,SL,,,,Suisun,,
+Northern anchovy, Engraulis mordax,0.0015,3.37,FL,,,,BREACH II,,?
+Northern anchovy, Engraulis mordax,0.004,3.2,SL,,,,non Delta,,?
+Pacific herring, Clupea pallasii,0.0015,3.44,FL,,,,Kimmerer et al,,
+Pacific herring, Clupea pallasii,0.0043,3.23,SL,,,,non Delta,,
+Pacific staghom sculpin, Leptocottus armatus,0.009,3.06,FL,,,,Kimmerer et al,,
+Pacific staghom sculpin, Leptocottus armatus,0.0051,3.2,SL,,,,Suisun,,
+Prickly sculpin, Cottus asper,0.0037,3.3,FL,,,,Kimmerer et al,,
+Prickly sculpin, Cottus asper,0.0038,3.29,SL,,,,Suisun,,
+Rainwater killifish, Lucania parva,0.0061,3.18,FL,,,,Kimmerer et al,,
+Sacramento sucker, Catostomus occidentalis,0.0146,3.01,SL,0.884955752,1.19,,Suisun,,
+Shimofuri goby, Tridentiger bifasciatus,0.0017,3.47,FL,,,,Kimmerer et al,,
+Splittail, Pogonichthys macrolepidotus,0.003,3.27,FL,0.909090909,1.28,,Kimmerer et al,,
+Starry flounder, Platichthys stellatus,0.0082,3.13,SL,,,,Suisun,,
+Striped bass, Morone saxatilis,0.0066,3.12,FL,0.970873786,1.15,,Kimmerer et al,,
+Striped bass, Morone saxatilis,0.0034,3.25,SL,,,,Suisun,,
+Threadfin shad, Dorosoma petenense,0.0072,3.16,FL,,,,Kimmerer et al,,
+Threadfin shad, Dorosoma petenense,0.0069,3.15,SL,,,,Suisun,,
+Threespine stickleback, Gasterosteus aculeatus,0.0086,3.04,FL,0.99009901,1.12,,Kimmerer et al,,
+Topsmelt, Atherinops affinis,0.0038,3.17,FL,,,,Kimmerer et al,,
+Tule perch, Hysterocarpus traskii,0.0204,3.03,FL,0.900900901,1.16,,Kimmerer et al,,
+Tule perch, Hysterocarpus traskii,0.0289,2.96,SL,,,,Suisun,,
+Western mosquitofish, Gambusia affinis,0.0066,3.15,FL,,,,Kimmerer et al,,
+Yellowfin goby, Acanthogobius flavimanus,0.0087,2.98,FL,,,,Kimmerer et al,,
+Yellowfin goby, Acanthogobius flavimanus,0.015,2.87,SL,,,,Suisun,,

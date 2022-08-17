@@ -1,431 +1,229 @@
-﻿Scientific Name,Common Name,"Total Length/
-Standard Length","Total Length/
-Fork Length",Reference 1
-Alosa fallax,Twaite shad,1.20,1.13,Beamish 1978 
-Alosa sapidissima,American shad,1.19,1.13,Bell 1991 
-Alosa sapidissima,American shad,1.19,1.13,Bell 1991 
-Alosa sapidissima,American shad,1.19,1.13,Bell 1991 
-Alosa sapidissima,American shad,1.19,1.13,Bell 1991 
-Campostoma anomalum,Central stoneroller,1.10,1.02,Layher and Ralston [not dated]
+﻿Scientific Name,Common Name,tl2sl,tl2fl,Reference 1
+Alosa fallax,Twaite Shad,1.2,1.13,Beamish 1978 
+Alosa sapidissima,American Shad,1.19,1.13,Bell 1991 
+Alosa sapidissima,American Shad,1.19,1.13,Bell 1991 
+Alosa sapidissima,American Shad,1.19,1.13,Bell 1991 
+Alosa sapidissima,American Shad,1.19,1.13,Bell 1991 
+Campostoma anomalum,Central Stoneroller,1.1,1.02,Layher and Ralston [not dated]
 Carassius auratus,Goldfish,1.23,1.07,Hunter and Mayor 1986
 Carassius auratus,Goldfish,1.23,1.07,Bell 1991
 Carassius auratus,Goldfish,1.23,1.07,Bell 1991
-Catostomus catostomus,Longnose sucker,1.15,1.05,Bell 1991
-Catostomus catostomus,Longnose sucker,1.15,1.05,Hunter and Mayor 1986
-Catostomus catostomus,Longnose sucker,1.15,1.05,Jones et al. 1974
-Catostomus commersoni,White sucker,1.17,1.06,Hunter and Mayor 1986
-Catostomus occidentalis,Sacramento sucker ,1.17,1.06,Myrick and Cech 2000
+Catostomus catostomus,Longnose Sucker,1.15,1.05,Bell 1991
+Catostomus catostomus,Longnose Sucker,1.15,1.05,Hunter and Mayor 1986
+Catostomus catostomus,Longnose Sucker,1.15,1.05,Jones et al. 1974
+Catostomus commersoni,White Sucker,1.17,1.06,Hunter and Mayor 1986
+Catostomus occidentalis,Sacramento Sucker ,1.17,1.06,Myrick and Cech 2000
 Coregonus artedii,Cisco,1.13,1.07,Bernatchez and Dodson 1985
 Coregonus artedii,Cisco,1.13,1.07,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bell 1991
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Jones et al. 1974
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Hunter and Mayor 1986
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus clupeaformis,Lake whitefish,1.17,1.09,Bernatchez and Dodson 1985
-Coregonus nasus,Broad whitefish,1.17,1.10,Jones et al. 1974
-Coregonus nasus,Broad whitefish,1.17,1.10,Hunter and Mayor 1986
-Cyprinus carpio carpio,Common carp,1.18,1.09,Katopodis data table
-Cyprinus carpio carpio,Common carp,1.18,1.09,Bell 1991
-Cyprinus carpio carpio,Common carp,1.18,1.09,Katopodis data table
-Cyprinus carpio carpio,Common carp,1.18,1.09,Bell 1991
-Esox lucius,Northern pike,1.15,1.06,Jones et al. 1974
-Esox lucius,Northern pike,1.15,1.06,Hunter and Mayor 1986
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bell 1991
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Jones et al. 1974
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Hunter and Mayor 1986
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus clupeaformis,Lake Whitefish,1.17,1.09,Bernatchez and Dodson 1985
+Coregonus nasus,Broad Whitefish,1.17,1.1,Jones et al. 1974
+Coregonus nasus,Broad Whitefish,1.17,1.1,Hunter and Mayor 1986
+Cyprinus Carpio Carpio,Common Carp,1.18,1.09,Katopodis data table
+Cyprinus Carpio Carpio,Common Carp,1.18,1.09,Bell 1991
+Cyprinus Carpio Carpio,Common Carp,1.18,1.09,Katopodis data table
+Cyprinus Carpio Carpio,Common Carp,1.18,1.09,Bell 1991
+Esox lucius,Northern Pike,1.15,1.06,Jones et al. 1974
+Esox lucius,Northern Pike,1.15,1.06,Hunter and Mayor 1986
 Etheostoma blennioides,Greenside darter,1.17,1.03,Layher 1993 unpublished 
-Etheostoma radiosum,Orangebelly darter,1.28,1.00,Layher 1993 unpublished 
-Etheostoma whipplei,Redfin darter,1.14,1.00,Layher 1993 unpublished 
+Etheostoma radiosum,Orangebelly darter,1.28,1,Layher 1993 unpublished 
+Etheostoma whipplei,Redfin darter,1.14,1,Layher 1993 unpublished 
 Gasterosteus aculeatus,Three-spined stickleback,1.12,1.01,Stahlberg and Peckmann 1987
-Gila cypha,Humpback chub,1.25,1.13,Berry and Pimentel 1985
-Gila cypha,Humpback chub,1.25,1.13,Berry and Pimentel 1985
-Gila cypha,Humpback chub,1.25,1.13,Berry and Pimentel 1985
-Gila cypha,Humpback chub,1.25,1.13,Berry and Pimentel 1985
-Gila cypha,Humpback chub,1.25,1.13,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
-Gila elegans,Bonytail chub,1.15,1.07,Berry and Pimentel 1985
+Gila cypha,Humpback Chub,1.25,1.13,Berry and Pimentel 1985
+Gila cypha,Humpback Chub,1.25,1.13,Berry and Pimentel 1985
+Gila cypha,Humpback Chub,1.25,1.13,Berry and Pimentel 1985
+Gila cypha,Humpback Chub,1.25,1.13,Berry and Pimentel 1985
+Gila cypha,Humpback Chub,1.25,1.13,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
+Gila elegans,Bonytail Chub,1.15,1.07,Berry and Pimentel 1985
 Gobio gobio,Gudgeon,1.16,1.05,Stahlberg and Peckmann 1987
-Hypomesus transpecificus,Delta smelt,1.16,1.11,Swanson et al. 2002
-Hypophthalmichthys nobilis,Bighead carp,1.21,1.13,Layher and Ralston [not dated]
-Lampetra fluviatilis,River lamprey,1.02,1.00,Laine et al. 1998
-Lampetra tridentata,Pacific lamprey,1.19,1.00,Moursund et al. 2003
-Lampetra tridentata,Pacific lamprey,1.19,1.00,Mesa et al. 2003 (unpublished)
-Lampetra tridentata,Pacific lamprey,1.19,1.00,Moursund et al. 2000
-Lampetra tridentata,Pacific lamprey,1.19,1.00,Moursund et al. 2003
+Hypomesus transpecificus,Delta Smelt,1.16,1.11,Swanson et al. 2002
+Hypophthalmichthys nobilis,Bighead Carp,1.21,1.13,Layher and Ralston [not dated]
+Lampetra fluviatilis,River Lamprey,1.02,1,Laine et al. 1998
+Lampetra tridentata,Pacific Lamprey,1.19,1,MourSund et al. 2003
+Lampetra tridentata,Pacific Lamprey,1.19,1,Mesa et al. 2003 (unpublished)
+Lampetra tridentata,Pacific Lamprey,1.19,1,MourSund et al. 2000
+Lampetra tridentata,Pacific Lamprey,1.19,1,MourSund et al. 2003
 Lavinia exilicauda,Hitch,1.17,1.06,Myrick and Cech 2000
 Lavinia exilicauda,Hitch,1.17,1.06,Myrick and Cech 2000
-Lepomis gibbosus,Pumpkinseed,1.24,1.00,Brett and Sutherland 1965
-Lepomis megalotis,Longear sunfish,1.18,1.03,Layher and Ralston unpublished undated 
-Lepomis megalotis,Longear sunfish,1.18,1.03,Layher and Ralston unpublished undated 
-Lepomis megalotis,Longear sunfish,1.18,1.03,Layher and Ralston unpublished undated 
-Lepomis megalotis,Longear sunfish,1.18,1.03,Layher and Ralston unpublished undated 
+Lepomis gibbosus,Pumpkinseed,1.24,1,Brett and Sutherland 1965
+Lepomis megalotis,Longear Sunfish,1.18,1.03,Layher and Ralston unpublished undated 
+Lepomis megalotis,Longear Sunfish,1.18,1.03,Layher and Ralston unpublished undated 
+Lepomis megalotis,Longear Sunfish,1.18,1.03,Layher and Ralston unpublished undated 
+Lepomis megalotis,Longear Sunfish,1.18,1.03,Layher and Ralston unpublished undated 
 Leucaspius delineatus,Leucaspius,1.15,1.06,Stahlberg and Peckmann 1987
 Leuciscus leuciscus,Common dace,1.17,1.09,Hunter and Mayor 1986
 Leuciscus leuciscus,Common dace,1.17,1.09,Beamish 1978
 Leuciscus leuciscus,Common dace,1.17,1.09,Beamish 1978
-Lota lota,Burbot,1.09,1.00,Bell 1991
-Lota lota,Burbot,1.09,1.00,Jones et al. 1974
-Lota lota,Burbot,1.09,1.00,Hunter and Mayor 1986
-Micropterus dolomieui,Smallmouth bass,1.21,1.04,Bunt et al. 1999
-Micropterus salmoides,Largemouth bass,1.15,1.03,Farlinger and Beamish 1977
-Micropterus salmoides,Largemouth bass,1.15,1.03,Farlinger and Beamish 1977
-Micropterus salmoides,Largemouth bass,1.15,1.03,Farlinger and Beamish 1977
-Micropterus salmoides,Largemouth bass,1.15,1.03,Farlinger and Beamish 1977
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Micropterus salmoides,Largemouth bass,1.15,1.03,Beamish 1970
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Hunter and Mayor 1986
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
-Morone saxatilis,Striped bass,1.16,1.05,Bell 1991
+Lota lota,Burbot,1.09,1,Bell 1991
+Lota lota,Burbot,1.09,1,Jones et al. 1974
+Lota lota,Burbot,1.09,1,Hunter and Mayor 1986
+Micropterus dolomieui,Smallmouth Bass,1.21,1.04,Bunt et al. 1999
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Farlinger and Beamish 1977
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Farlinger and Beamish 1977
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Farlinger and Beamish 1977
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Farlinger and Beamish 1977
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Micropterus salmoides,Largemouth Bass,1.15,1.03,Beamish 1970
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Hunter and Mayor 1986
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
+Morone saxatilis,Striped Bass,1.16,1.05,Bell 1991
 Mylopharodon conocephalus,Hardhead,1.23,1.09,Myrick and Cech 2000
-Noemacheilus barbatula,Stone loach,1.15,1.01,Stahlberg and Peckmann 1987
-Notemigonus crysoleucas,Golden shiner,1.17,1.06,Layher 1993 unpublished 
-Notropis boops,Bigeye shiner,1.19,1.08,Layher and Ralston [not dated]
-Notropis boops,Bigeye shiner,1.19,1.08,Layher and Ralston [not dated]
-Notropis boops,Bigeye shiner,1.19,1.08,Layher and Ralston [not dated]
-Notropis boops,Bigeye shiner,1.19,1.08,Layher and Ralston [not dated]
-Oncorhynchus clarkii,Cutthroat trout,1.13,1.02,Bell 1991
-Oncorhynchus clarkii,Cutthroat trout,1.13,1.02,Belford and Gould 1989
-Oncorhynchus clarkii,Cutthroat trout,1.13,1.02,Bell 1991
-Oncorhynchus clarkii,Coastal cutthroat trout,1.13,1.02,Hawkins and Quinn 1996
-Oncorhynchus clarkii,Coastal cutthroat trout,1.13,1.02,Hawkins and Quinn 1996
-Oncorhynchus clarkii X O mykiss hybrid,Coastal cutthroat trout X rainbow hybrid,1.13,1.02,Hawkins and Quinn 1996
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Powers and Orsborn 1985 (part 4 of 4)
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Hunter and Mayor 1986
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Farrell et al. 2003
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Smith and Carpenter 1987
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Smith and Carpenter 1987
-Oncorhynchus gorbuscha,Pink salmon,1.12,1.03,Smith and Carpenter 1987
-Oncorhynchus keta,Chum salmon,1.10,1.02,Powers and Orsborn 1985 (part 4 of 4)
-Oncorhynchus keta,Chum salmon,1.10,1.02,Hunter and Mayor 1986
-Oncorhynchus keta,Chum salmon,1.10,1.02,Aaserude and Orsborn 1986
-Oncorhynchus keta,Chum salmon,1.10,1.02,Smith and Carpenter 1987
-Oncorhynchus keta,Chum salmon,1.10,1.02,Smith and Carpenter 1987
-Oncorhynchus keta,Chum salmon,1.10,1.02,Smith and Carpenter 1987
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Hunter and Mayor 1986
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Weaver 1963
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Bell 1991
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Hunter and Mayor 1986
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Hunter and Mayor 1986
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Hunter and Mayor 1986
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Lee et al. 2003a and Lee et al. 2003b
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Smith and Carpenter 1987
-Oncorhynchus kisutch,Coho salmon,1.11,1.02,Smith and Carpenter 1987
+Noemacheilus barbatula,Stone Loach,1.15,1.01,Stahlberg and Peckmann 1987
+Notemigonus crysoleucas,Golden Shiner,1.17,1.06,Layher 1993 unpublished 
+Notropis boops,Bigeye Shiner,1.19,1.08,Layher and Ralston [not dated]
+Notropis boops,Bigeye Shiner,1.19,1.08,Layher and Ralston [not dated]
+Notropis boops,Bigeye Shiner,1.19,1.08,Layher and Ralston [not dated]
+Notropis boops,Bigeye Shiner,1.19,1.08,Layher and Ralston [not dated]
+Oncorhynchus clarkii,Cutthroat Trout,1.13,1.02,Bell 1991
+Oncorhynchus clarkii,Cutthroat Trout,1.13,1.02,Belford and Gould 1989
+Oncorhynchus clarkii,Cutthroat Trout,1.13,1.02,Bell 1991
+Oncorhynchus clarkii,Coastal Cutthroat Trout,1.13,1.02,Hawkins and Quinn 1996
+Oncorhynchus clarkii,Coastal Cutthroat Trout,1.13,1.02,Hawkins and Quinn 1996
+Oncorhynchus clarkii X O mykiss hybrid,Coastal Cutthroat Trout X rainbow hybrid,1.13,1.02,Hawkins and Quinn 1996
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Powers and Orsborn 1985 (part 4 of 4)
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Hunter and Mayor 1986
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Farrell et al. 2003
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Smith and Carpenter 1987
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Smith and Carpenter 1987
+Oncorhynchus gorbuscha,Pink Salmon,1.12,1.03,Smith and Carpenter 1987
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Powers and Orsborn 1985 (part 4 of 4)
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Hunter and Mayor 1986
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Aaserude and Orsborn 1986
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Smith and Carpenter 1987
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Smith and Carpenter 1987
+Oncorhynchus keta,Chum Salmon,1.1,1.02,Smith and Carpenter 1987
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Hunter and Mayor 1986
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Weaver 1963
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Bell 1991
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Hunter and Mayor 1986
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Hunter and Mayor 1986
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Hunter and Mayor 1986
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Lee et al. 2003a and Lee et al. 2003b
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Smith and Carpenter 1987
+Oncorhynchus kisutch,Coho Salmon,1.11,1.02,Smith and Carpenter 1987
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Hunter and Mayor 1986
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Hunter and Mayor 1986
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Bell 1991
-Oncorhynchus mykiss,Rainbow trout,1.12,1.02,Jones et al. 1974
-Oncorhynchus mykiss,Rainbow trout,1.12,1.02,Burgetz et al. 1998
-Oncorhynchus mykiss,Rainbow trout,1.12,1.02,Jain et al. 1997
-Oncorhynchus mykiss,Rainbow trout,1.12,1.02,Jones 1971
-Oncorhynchus mykiss,Rainbow trout,1.12,1.02,Jones 1971
+Oncorhynchus mykiss,Rainbow Trout,1.12,1.02,Jones et al. 1974
+Oncorhynchus mykiss,Rainbow Trout,1.12,1.02,Burgetz et al. 1998
+Oncorhynchus mykiss,Rainbow Trout,1.12,1.02,Jain et al. 1997
+Oncorhynchus mykiss,Rainbow Trout,1.12,1.02,Jones 1971
+Oncorhynchus mykiss,Rainbow Trout,1.12,1.02,Jones 1971
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Bell 1991
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Jones et al. 1974
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Jones et al. 1974
 Oncorhynchus mykiss,Steelhead,1.12,1.02,Hawkins and Quinn 1996
-Oncorhynchus mykiss irideus,Rainbow trout,1.12,1.02,Hunter and Mayor 1986
-Oncorhynchus mykiss irideus,Rainbow trout,1.12,1.02,Tsukamoto 1975
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Bell 1991
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Hunter and Mayor 1986
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett 1965
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Lee et al. 2003
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Lee et al. 2003
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Lee et al. 2003
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Lee et al. 2003
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Taylor and Foote 1991
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett and Glass 1973
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett and Glass 1973
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett and Glass 1973
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett and Glass 1973
-Oncorhynchus nerka,Sockeye salmon,1.11,1.05,Brett and Glass 1973
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Hunter and Mayor 1986
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Bell 1991
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Geist et al. 2003
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Bell 1991
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Smith and Carpenter 1987
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Smith and Carpenter 1987
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Smith and Carpenter 1987
-Oncorhynchus tshawytscha,Chinook salmon,1.14,1.03,Kerr 1953
-Petromyzon marinus,Sea lamprey,1.04,1.00,Hunter and Mayor 1986
-Petromyzon marinus,Sea lamprey,1.04,1.00,Hunter and Mayor 1986
-Petromyzon marinus,Sea lamprey,1.04,1.00,Hunter and Mayor 1986
-Platygobio gracilis,Flathead chub,1.25,1.13,Jones et al. 1974
-Platygobio gracilis,Flathead chub,1.25,1.13,Hunter and Mayor 1986
-Pogonichthys macrolepidotus,Splittail,1.28,1.10,Young and Cech 1996
-Prosopium williamsoni,Mountain whitefish,1.13,1.06,Bell 1991
-Prosopium williamsoni,Mountain whitefish,1.13,1.06,Jones et al. 1974
-Ptychocheilus grandis,Sacramento pikeminnow,1.13,1.05,Myrick and Cech 2000
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus lucius,Colorado pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
-Ptychocheilus oregonensis,Northern pikeminnow,1.12,1.05,Mesa and Olson 1993
+Oncorhynchus mykiss irideus,Rainbow Trout,1.12,1.02,Hunter and Mayor 1986
+Oncorhynchus mykiss irideus,Rainbow Trout,1.12,1.02,Tsukamoto 1975
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Bell 1991
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Hunter and Mayor 1986
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett 1965
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Lee et al. 2003
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Lee et al. 2003
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Lee et al. 2003
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Lee et al. 2003
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Taylor and Foote 1991
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett and Glass 1973
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett and Glass 1973
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett and Glass 1973
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett and Glass 1973
+Oncorhynchus nerka,Sockeye Salmon,1.11,1.05,Brett and Glass 1973
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Hunter and Mayor 1986
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Bell 1991
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Geist et al. 2003
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Bell 1991
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Smith and Carpenter 1987
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Smith and Carpenter 1987
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Smith and Carpenter 1987
+Oncorhynchus tshawytscha,Chinook Salmon,1.14,1.03,Kerr 1953
+Petromyzon marinus,Sea Lamprey,1.04,1,Hunter and Mayor 1986
+Petromyzon marinus,Sea Lamprey,1.04,1,Hunter and Mayor 1986
+Petromyzon marinus,Sea Lamprey,1.04,1,Hunter and Mayor 1986
+Platygobio gracilis,Flathead Chub,1.25,1.13,Jones et al. 1974
+Platygobio gracilis,Flathead Chub,1.25,1.13,Hunter and Mayor 1986
+Pogonichthys macrolepidotus,Splittail,1.28,1.1,Young and Cech 1996
+Prosopium williamsoni,Mountain Whitefish,1.13,1.06,Bell 1991
+Prosopium williamsoni,Mountain Whitefish,1.13,1.06,Jones et al. 1974
+Ptychocheilus grandis,Sacramento Pikeminnow,1.13,1.05,Myrick and Cech 2000
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus lucius,Colorado Pikeminnow (squawfish),1.15,1.07,Berry and Pimentel 1985
+Ptychocheilus oregonensis,Northern Pikeminnow,1.12,1.05,Mesa and Olson 1993
 Rhinichthys atratulus,Blacknose dace,1.19,1.06,Nelson et al. 2003
-Salmo salar,Atlantic salmon,1.11,1.05,Hunter and Mayor 1986 
-Salmo salar,Atlantic salmon,1.11,1.05,Hunter and Mayor 1986 
-Salmo trutta,Brown trout,1.14,1.04,Hunter and Mayor 1986
-Salmo trutta,Brown trout,1.14,1.04,Beamish 1978
-Salmo trutta,Brown trout,1.14,1.04,Peake et al. 1997 (McKinley; Struton)
-Salvelinus alpinus,Arctic char,0.89,1.05,Beamish 1980 
-Salvelinus alpinus,Arctic char,0.89,1.05,Beamish 1980 
-Salvelinus alpinus,Arctic char,0.89,1.05,Hunter and Mayor 1986 
-Salvelinus alpinus,Arctic char,0.89,1.05,Jones et al. 1974 
-Salvelinus alpinus,Arctic char,0.89,1.05,Beamish 1980 
-Salvelinus alpinus,Arctic char,0.89,1.05,Beamish 1980 
-Salvelinus alpinus,Arctic char,0.89,1.05,Beamish 1980 
-Salvelinus confluentus,Bull trout,1.11,1.03,Mesa et al. 2004
-Salvelinus confluentus,Bull trout,1.11,1.03,Mesa et al. 2004
-Salvelinus confluentus,Bull trout,1.11,1.03,Mesa et al. 2004
-Salvelinus confluentus,Bull trout,1.11,1.03,Mesa et al. 2004
-Salvelinus fontinalis,Brook trout,1.10,1.01,Peterson 1974
-Salvelinus fontinalis,Brook trout,1.10,1.01,Hunter and Mayor 1986
-Salvelinus fontinalis,Brook trout,1.10,1.01,Hunter and Mayor 1986
-Salvelinus fontinalis,Brook trout,1.10,1.01,Peake et al. 1997 (McKinley; Struton)
+Salmo salar,Atlantic Salmon,1.11,1.05,Hunter and Mayor 1986 
+Salmo salar,Atlantic Salmon,1.11,1.05,Hunter and Mayor 1986 
+Salmo trutta,Brown Trout,1.14,1.04,Hunter and Mayor 1986
+Salmo trutta,Brown Trout,1.14,1.04,Beamish 1978
+Salmo trutta,Brown Trout,1.14,1.04,Peake et al. 1997 (McKinley; Struton)
+Salvelinus alpinus,Arctic Char,0.89,1.05,Beamish 1980 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Beamish 1980 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Hunter and Mayor 1986 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Jones et al. 1974 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Beamish 1980 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Beamish 1980 
+Salvelinus alpinus,Arctic Char,0.89,1.05,Beamish 1980 
+Salvelinus confluentus,Bull Trout,1.11,1.03,Mesa et al. 2004
+Salvelinus confluentus,Bull Trout,1.11,1.03,Mesa et al. 2004
+Salvelinus confluentus,Bull Trout,1.11,1.03,Mesa et al. 2004
+Salvelinus confluentus,Bull Trout,1.11,1.03,Mesa et al. 2004
+Salvelinus fontinalis,Brook Trout,1.1,1.01,Peterson 1974
+Salvelinus fontinalis,Brook Trout,1.1,1.01,Hunter and Mayor 1986
+Salvelinus fontinalis,Brook Trout,1.1,1.01,Hunter and Mayor 1986
+Salvelinus fontinalis,Brook Trout,1.1,1.01,Peake et al. 1997 (McKinley; Struton)
 Sander lucioperca,Pikeperch,1.16,1.04,Koed and Thorstad 2001
-Sander vitreus,Walleye,1.10,1.05,Peake et al. 2000
-Sander vitreus,Walleye,1.10,1.05,Hunter and Mayor 1986
-Sander vitreus,Walleye,1.10,1.05,Jones et al. 1974
-Sander vitreus,Walleye,1.10,1.05,Peake et al. 2000
-Sander vitreus,Walleye,1.10,1.05,Peake et al. 2000
-Sander vitreus,Walleye,1.10,1.05,Houde 1969
-Sander vitreus,Walleye,1.10,1.05,Houde 1969
-Sander vitreus,Walleye,1.10,1.05,Houde 1969
-Sander vitreus,Walleye,1.10,1.05,Houde 1969
-Scaphirhynchus albus,Pallid sturgeon,1.24,1.11,Adams et al. 2003
-Scaphirhynchus albus,Pallid sturgeon,1.24,1.11,Adams et al. 2003
-Scaphirhynchus platorynchus,Shovelnose sturgeon,1.46,1.36,Adams et al. 2003
-Scaphirhynchus platorynchus,Shovelnose sturgeon,1.46,1.36,Adams et al. 2003
-Spinachia spinachia,Sea stickleback,1.08,1.00,Bell 1991
+Sander vitreus,Walleye,1.1,1.05,Peake et al. 2000
+Sander vitreus,Walleye,1.1,1.05,Hunter and Mayor 1986
+Sander vitreus,Walleye,1.1,1.05,Jones et al. 1974
+Sander vitreus,Walleye,1.1,1.05,Peake et al. 2000
+Sander vitreus,Walleye,1.1,1.05,Peake et al. 2000
+Sander vitreus,Walleye,1.1,1.05,Houde 1969
+Sander vitreus,Walleye,1.1,1.05,Houde 1969
+Sander vitreus,Walleye,1.1,1.05,Houde 1969
+Sander vitreus,Walleye,1.1,1.05,Houde 1969
+Scaphirhynchus albus,Pallid Sturgeon,1.24,1.11,Adams et al. 2003
+Scaphirhynchus albus,Pallid Sturgeon,1.24,1.11,Adams et al. 2003
+Scaphirhynchus platorynchus,Shovelnose Sturgeon,1.46,1.36,Adams et al. 2003
+Scaphirhynchus platorynchus,Shovelnose Sturgeon,1.46,1.36,Adams et al. 2003
+Spinachia spinachia,Sea Stickleback,1.08,1,Bell 1991
 Stenodus leucichthys,Inconnu,1.15,1.08,Jones et al. 1974
 Stenodus leucichthys,Inconnu,1.15,1.08,Hunter and Mayor 1986
-Thymallus arcticus,Arctic grayling,1.13,1.06,Bell 1973 
-Thymallus arcticus,Arctic grayling,1.13,1.06,Jones et al. 1974
-Thymallus arcticus,Arctic grayling,1.13,1.06,Hunter and Mayor 1986 
-,,TL = Total Length,TL = Total Length,~
-,,SL = Standard Length,FL = Fork Length,~
-,,,,~
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
+Thymallus arcticus,Arctic Grayling,1.13,1.06,Bell 1973 
+Thymallus arcticus,Arctic Grayling,1.13,1.06,Jones et al. 1974
+Thymallus arcticus,Arctic Grayling,1.13,1.06,Hunter and Mayor 1986 
